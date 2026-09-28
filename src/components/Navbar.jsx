@@ -3,7 +3,9 @@ import { Menu, Moon, Sun, X } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "../hooks/useTheme";
 import { scrollToSection } from "../utils/scroll";
-const links=[["/","Home"],["/#about","About"],["/#experience","Experience"],["/#skills","Skills"],["/projects","Projects"],["/blog","Blog"],["/#contact","Contact"]];
+// About and Contact are real pages now, so they are linked as routes rather than as
+// homepage anchors — Google needs a crawlable link to reach them.
+const links=[["/","Home"],["/about","About"],["/#experience","Experience"],["/#skills","Skills"],["/projects","Projects"],["/blog","Blog"],["/contact","Contact"]];
 export default function Navbar(){
  const [open,setOpen]=useState(false); const {theme,toggle}=useTheme();
  const navigate=useNavigate(); const {pathname}=useLocation();

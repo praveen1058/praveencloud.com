@@ -3,59 +3,55 @@ import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
 
-// Blog posts are read at runtime, not bundled: the client fetches an index of
-// content/blogs/*.md and then the .md file itself. The index is rebuilt from disk on
-// every request in dev, so adding or editing a post shows up on reload — no restart.
-const BLOG_DIR = () => path.resolve(process.cwd(), "content/blogs");
-const BLOG_INDEX_URL = "/content/blogs/index.json";
+import { blogDir, renderSitemap, scanPosts } from "./scripts/blog.mjs";
 
-function readBlogIndex() {
-  const dir = BLOG_DIR();
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".md"))
-    .map((file) => {
-      const full = path.join(dir, file);
-      const raw = fs.readFileSync(full, "utf8");
-      // Only the frontmatter block travels in the index — the listing page needs the
-      // metadata, and the body is fetched on demand by the article page.
-      const frontmatter = raw.match(/^---\s*[\s\S]*?\s*---/);
-      // Posts are ordered by file modification time, newest first.
-      const modifiedAt = new Date(fs.statSync(full).mtimeMs).toISOString();
-      return { slug: file.replace(/\.md$/, ""), file, modifiedAt, raw: frontmatter ? frontmatter[0] : "" };
-    })
-    .sort((a, b) => b.modifiedAt.localeCompare(a.modifiedAt));
-}
+// In production the index comes from public/api/blog.php, which scans the blog/ folder
+// on every request — that is what makes "upload a .md file" enough to publish. This
+// plugin stands in for that endpoint during dev and `vite preview`, answering the same
+// URL with the same JSON so the front end has a single contract, and it also writes a
+// static blog/index.json fallback into the build for hosts without PHP.
+const BLOG_API_URL = "/api/blog.php";
+const BLOG_INDEX_URL = "/blog/index.json";
+const SITEMAP_URL = "/sitemap.xml";
 
 function blogContentPlugin() {
-  const serveIndex = (server) => {
+  const serve = (server) => {
     server.middlewares.use((req, res, next) => {
-      if (!req.url || req.url.split("?")[0] !== BLOG_INDEX_URL) return next();
-      res.setHeader("Content-Type", "application/json");
-      res.setHeader("Cache-Control", "no-cache");
-      res.end(JSON.stringify(readBlogIndex()));
+      const url = req.url?.split("?")[0];
+      if (!url) return next();
+
+      if (url === BLOG_API_URL || url === BLOG_INDEX_URL) {
+        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Cache-Control", "no-cache");
+        return res.end(JSON.stringify({ posts: scanPosts() }));
+      }
+
+      if (url === SITEMAP_URL) {
+        res.setHeader("Content-Type", "application/xml");
+        res.setHeader("Cache-Control", "no-cache");
+        return res.end(renderSitemap(scanPosts()));
+      }
+
+      return next();
     });
   };
 
   return {
     name: "blog-content",
-    configureServer: serveIndex,
-    configurePreviewServer: serveIndex,
+    configureServer: serve,
+    configurePreviewServer: serve,
     generateBundle() {
-      const dir = BLOG_DIR();
-      const index = readBlogIndex();
-      this.emitFile({ type: "asset", fileName: "content/blogs/index.json", source: JSON.stringify(index) });
-      for (const entry of index) {
-        this.emitFile({
-          type: "asset",
-          fileName: `content/blogs/${entry.file}`,
-          source: fs.readFileSync(path.join(dir, entry.file))
-        });
-      }
+      const posts = scanPosts();
+      // The .md files themselves are in public/, so Vite copies them already.
+      this.emitFile({
+        type: "asset",
+        fileName: "blog/index.json",
+        source: JSON.stringify({ posts })
+      });
+      this.emitFile({ type: "asset", fileName: "sitemap.xml", source: renderSitemap(posts) });
     },
     handleHotUpdate({ file, server }) {
-      if (file.includes(path.join("content", "blogs"))) {
+      if (file.startsWith(blogDir())) {
         server.ws.send({ type: "full-reload" });
       }
     }
@@ -107,6 +103,9 @@ function contentAssetsPlugin() {
 
 export default defineConfig({
   plugins: [react(), blogContentPlugin(), contentAssetsPlugin()],
+  server: {
+    watch: process.env.VITE_DOCKER ? { usePolling: true, interval: 300 } : undefined
+  },
   build: {
     target: "es2022",
     cssCodeSplit: true,

@@ -1,0 +1,10 @@
+# Serves dist/ the way Hostinger does — Apache with PHP and .htaccess enabled — so the
+# rewrite rules, the blog API and the SEO front controller can be tested before upload.
+# Use with: npm run build && docker compose up preview
+FROM php:8.3-apache
+
+RUN a2enmod rewrite headers expires deflate mime \
+    # Hostinger allows .htaccess overrides; the base image does not, so turn them on.
+    && sed -ri 's!AllowOverride None!AllowOverride All!g' /etc/apache2/apache2.conf
+
+EXPOSE 80

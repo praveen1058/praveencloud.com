@@ -3,7 +3,6 @@ import {
   ArrowRight,
   Download,
   Mail,
-  ExternalLink,
   Server,
   Cloud,
   ShieldCheck,
@@ -13,7 +12,7 @@ import { useEffect, useState } from "react";
 
 import SEO from "../components/SEO";
 import SectionHeading from "../components/SectionHeading";
-import { site } from "../utils/seo";
+import ContactChannels from "../components/ContactChannels";
 import { loadJSON } from "../utils/api";
 import { scrollToSectionWhenReady } from "../utils/scroll";
 
@@ -23,6 +22,7 @@ const fade = {
   viewport: { once: true, amount: 0.15 },
   transition: { duration: 0.5 },
 };
+
 
 export default function Home() {
   const [exp, setExp] = useState([]);
@@ -101,14 +101,14 @@ export default function Home() {
                 <ArrowRight size={18} />
               </Link>
 
-              <a
+              {/* <a
                 href="/resume.pdf"
                 download
                 className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 text-base font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:bg-slate-50 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:hover:bg-white/[0.06]"
               >
                 Download Resume
                 <Download size={18} />
-              </a>
+              </a> */}
 
               <a
                 href="#contact"
@@ -305,69 +305,22 @@ export default function Home() {
 
       <section id="contact" className="section">
         <div className="container-page">
-          <div className="glass overflow-hidden rounded-[2rem] p-8 sm:p-12">
-            <div className="grid gap-10 lg:grid-cols-2">
-              <div>
-                <SectionHeading
-                  eyebrow="Contact"
-                  title="Let's build something dependable."
-                  description="Have a cloud, infrastructure or DevOps opportunity? Send a message and I'll get back to you."
-                />
+          <div className="glass relative overflow-hidden rounded-[2rem] p-8 sm:p-12 lg:p-16">
+            {/* Soft glow behind the panel so the centred layout doesn't read as empty space. */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-32 left-1/2 h-80 w-[36rem] -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-500/20 via-violet-500/20 to-cyan-400/20 blur-3xl"
+            />
 
-                <div className="space-y-4 text-base">
-                  <a
-                    className="flex items-center gap-3 font-medium text-slate-700 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400"
-                    href={`mailto:${site.email}`}
-                  >
-                    <Mail size={18} />
-                    {site.email}
-                  </a>
+            <div className="relative">
+              <SectionHeading
+                align="center"
+                eyebrow="Contact"
+                title="Let's build something dependable."
+                description="Have a cloud, infrastructure or DevOps opportunity? Reach out on either channel below — I read everything and reply quickly."
+              />
 
-                  <a
-                    className="flex items-center gap-3 font-medium text-slate-700 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400"
-                    href={site.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <ExternalLink size={18} />
-                    LinkedIn
-                  </a>
-                </div>
-              </div>
-
-              <form
-                action={`mailto:${site.email}`}
-                method="post"
-                encType="text/plain"
-                className="space-y-4"
-              >
-                <input
-                  required
-                  name="name"
-                  placeholder="Your name"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none focus:border-indigo-500 dark:border-white/10 dark:bg-white/5 dark:text-white"
-                />
-
-                <input
-                  required
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none focus:border-indigo-500 dark:border-white/10 dark:bg-white/5 dark:text-white"
-                />
-
-                <textarea
-                  required
-                  name="message"
-                  rows="6"
-                  placeholder="Tell me about your project or opportunity"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 outline-none focus:border-indigo-500 dark:border-white/10 dark:bg-white/5 dark:text-white"
-                />
-
-                <button className="w-full rounded-xl bg-indigo-600 px-5 py-3 text-base font-semibold text-white transition hover:bg-indigo-500">
-                  Send message
-                </button>
-              </form>
+              <ContactChannels />
             </div>
           </div>
         </div>

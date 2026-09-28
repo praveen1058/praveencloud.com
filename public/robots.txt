@@ -1,4 +1,25 @@
 User-agent: *
 Allow: /
 
+# Nothing on this site is behind a crawl restriction — the API endpoint is listed
+# explicitly only so it is obvious it is safe to fetch.
+Allow: /api/blog.php
+Allow: /blog/
+
+# Search-engine and AdSense crawlers, called out so a future rule never blocks them.
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 Sitemap: https://praveencloud.com/sitemap.xml

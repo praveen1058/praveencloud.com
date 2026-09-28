@@ -1,0 +1,28 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5173:5173"
+    environment:
+      # Switches the Vite watcher to polling — see the note in vite.config.js.
+      VITE_DOCKER: "1"
+    volumes:
+      # Source is bind-mounted so edits on the host reach the dev server. content/ is
+      # read from disk per request by the Vite plugins, so posts stay live too.
+      - .:/app
+      # Anonymous volume keeps the container's Linux node_modules from being shadowed
+      # by the host's (Windows) copy.
+      - /app/node_modules
+
+  # A local stand-in for Hostinger: Apache + PHP serving dist/ with .htaccess active.
+  # Run `npm run build` first, then `docker compose up preview`, and check
+  # http://localhost:8081 to confirm the rewrites, blog API and meta tags all work
+  # before uploading anything.
+  preview:
+    build:
+      context: .
+      dockerfile: Dockerfile.preview
+    ports:
+      - "8081:80"
+    volumes:
+      - ./dist:/var/www/html:ro

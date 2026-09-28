@@ -1,43 +1,101 @@
-# Serve hashed build assets with the correct MIME type. Without these, some shared
-# hosts fall back to text/html and strict module checking rejects the script.
-<IfModule mod_mime.c>
-  AddType application/javascript .js
-  AddType application/javascript .mjs
-  AddType text/css .css
-  AddType application/json .json
-  AddType image/svg+xml .svg
-  AddType application/pdf .pdf
-</IfModule>
+# praveencloud.com — Apache configuration for Hostinger shared hosting.
+# Upload the contents of dist/ to public_html/; this file must sit at its root.
+
+# Never expose a browsable listing of blog/ or images/.
+Options -Indexes
+
+# Without this, Apache 301-redirects /blog/docker to /blog/docker/ because a directory
+# of that name exists, which would fight the SPA's clean URLs.
+DirectorySlash Off
+
+DirectoryIndex index.php index.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Never rewrite real files or directories — this is what keeps /assets/*.js from
-  # being swallowed by the SPA fallback below.
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
+  # Canonical host + HTTPS. Hostinger terminates TLS upstream, so trust the header it
+  # forwards as well as Apache's own HTTPS flag. Local hosts are exempt so the same
+  # rules can be exercised in the preview container over plain HTTP.
+  RewriteCond %{HTTP_HOST} !^localhost [NC]
+  RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://praveencloud.com/$1 [R=301,L]
+
+  RewriteCond %{HTTP_HOST} ^www\.praveencloud\.com$ [NC]
+  RewriteRule ^(.*)$ https://praveencloud.com/$1 [R=301,L]
+
+  # The sitemap is generated per request so newly uploaded articles appear immediately.
+  RewriteRule ^sitemap\.xml$ /sitemap.php [L]
+
+  # The raw shell carries no per-route meta tags; send anyone asking for it to the
+  # canonical URL so Google never sees it as a duplicate of every other page.
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  # Real files (assets, .md articles, /api/*.php) are served as-is.
+  RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Anything that looks like a build asset must 404 rather than return index.html,
-  # so a bad deploy surfaces as a missing file instead of a confusing MIME error.
-  RewriteRule ^assets/ - [L,R=404]
+  # Everything else — including /blog/aws/some-guide — is handled by the front
+  # controller, which injects that route's meta tags before serving the app shell.
+  RewriteRule ^ /index.php [L]
+</IfModule>
 
-  # Client-side routing: everything else renders the SPA shell.
-  RewriteRule . /index.html [L]
+<IfModule mod_mime.c>
+  AddType text/markdown .md
+  AddCharset UTF-8 .md
+  AddType application/json .json
+  AddType image/svg+xml .svg
+  AddType application/xml .xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/markdown
+  AddOutputFilterByType BROTLI_COMPRESS text/javascript application/javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/json application/xml image/svg+xml
 </IfModule>
 
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/markdown
+  # Apache labels .js as text/javascript, so both spellings have to be listed or the
+  # main bundle ships uncompressed.
+  AddOutputFilterByType DEFLATE text/javascript application/javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
 <IfModule mod_expires.c>
   ExpiresActive On
-  # Hashed filenames change on every build, so they are safe to cache indefinitely.
+
+  # Vite fingerprints every JS/CSS filename, so those can be cached hard.
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType text/css "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 month"
-  # The shell and content JSON must stay fresh.
-  ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType application/json "access plus 0 seconds"
+
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Article content and the index must never be served stale, or a freshly uploaded
+  # post would stay invisible until a cache expired. Revalidation is cheap: the PHP
+  # endpoints answer with 304 when nothing has changed.
+  <FilesMatch "\.(md|json)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>

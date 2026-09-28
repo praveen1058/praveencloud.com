@@ -1,7 +1,105 @@
-import { useEffect,useMemo,useState } from "react"; import {Link} from "react-router-dom"; import SEO from "../components/SEO"; import SectionHeading from "../components/SectionHeading"; import Loading from "../components/Loading"; import {loadBlogIndex} from "../utils/blog";
-export default function Blog(){const [q,setQ]=useState(""),[tag,setTag]=useState("all"),[blogs,setBlogs]=useState(null);
- useEffect(()=>{let active=true;loadBlogIndex().then(list=>{if(active)setBlogs(list);});return()=>{active=false;};},[]);
- const tags=useMemo(()=>["all",...new Set((blogs||[]).flatMap(b=>b.data.tags||[]))],[blogs]);
- const filtered=useMemo(()=>(blogs||[]).filter(b=>(tag==="all"||(b.data.tags||[]).includes(tag))&&`${b.data.title} ${b.data.description} ${(b.data.tags||[]).join(" ")}`.toLowerCase().includes(q.toLowerCase())),[blogs,tag,q]);
- if(!blogs)return <Loading/>;
- return <div className="container-page section"><SEO title="Blog" description="Technical articles about cloud, DevOps, Linux, automation and infrastructure." path="/blog"/><SectionHeading eyebrow="Writing" title="Technical notes & guides" description="Markdown-powered articles. Add a new .md file to content/blogs and it automatically appears here."/><div className="mb-8 flex flex-col gap-3 sm:flex-row"><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search articles…" className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none focus:border-indigo-500 dark:border-white/10 dark:bg-white/5"/><select value={tag} onChange={e=>setTag(e.target.value)} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-base dark:border-white/10 dark:bg-white/5">{tags.map(t=><option key={t} value={t}>{t==="all"?"All categories":t}</option>)}</select></div><div className="grid gap-6 md:grid-cols-2">{filtered.map(b=><article key={b.slug} className="glass rounded-3xl p-6"><div className="flex gap-2 meta-text"><span>{b.data.date}</span><span>·</span><span>{b.data.readingTime||"5 min"}</span></div><h2 className="mt-3 font-display text-xl font-semibold leading-snug sm:text-2xl">{b.data.title}</h2><p className="mt-3 body-copy">{b.data.description}</p><div className="mt-4 flex flex-wrap gap-2">{(b.data.tags||[]).map(t=><span key={t} className="rounded-full bg-slate-100 px-2.5 py-1 tag-text dark:bg-white/10">{t}</span>)}</div><Link className="mt-6 inline-block text-base font-semibold text-indigo-500" to={`/blog/${encodeURIComponent(b.slug)}`}>Read article →</Link></article>)}</div>{filtered.length===0&&<p className="py-12 text-center text-slate-500">No articles found.</p>}</div>}
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
+
+import SEO from "../components/SEO";
+import SectionHeading from "../components/SectionHeading";
+import Loading from "../components/Loading";
+import BlogCard from "../components/BlogCard";
+import { loadBlogIndex, searchPosts } from "../utils/blog";
+import { buildCategoryList } from "../utils/categories";
+
+export default function Blog() {
+  const [query, setQuery] = useState("");
+  const [posts, setPosts] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    loadBlogIndex().then(list => {
+      if (active) setPosts(list);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const categories = useMemo(() => buildCategoryList(posts || []), [posts]);
+  const results = useMemo(() => searchPosts(posts || [], query), [posts, query]);
+
+  if (!posts) return <Loading />;
+
+  return (
+    <div className="container-page section">
+      <SEO
+        title="Blog"
+        description="Technical articles and guides on AWS, Azure, GCP, Docker, Kubernetes, Terraform, Ansible, Jenkins, GitHub Actions and Linux automation."
+        path="/blog"
+        keywords={categories.map(c => c.label)}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          name: "PraveenCloud Blog",
+          url: "https://praveencloud.com/blog",
+          description:
+            "Cloud, DevOps, automation and infrastructure articles by Praveen Kumar.",
+        }}
+      />
+
+      <SectionHeading
+        eyebrow="Writing"
+        title="Cloud & DevOps guides"
+        description="Practical, hands-on articles on cloud platforms, containers, CI/CD, infrastructure as code and Linux automation."
+      />
+
+      <div className="relative mb-6">
+        <Search
+          size={18}
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+        />
+        <input
+          type="search"
+          value={query}
+          onChange={event => setQuery(event.target.value)}
+          placeholder="Search articles — try “kubernetes pods” or “docker volumes”"
+          aria-label="Search articles"
+          className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-base outline-none transition focus:border-indigo-500 dark:border-white/10 dark:bg-white/5"
+        />
+      </div>
+
+      {categories.length > 0 && (
+        <nav aria-label="Blog categories" className="mb-10 flex flex-wrap gap-2">
+          {categories.map(category => (
+            <Link
+              key={category.slug}
+              to={`/blog/${category.slug}`}
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-indigo-400 hover:text-indigo-600 dark:border-white/10 dark:text-slate-300 dark:hover:text-indigo-400"
+            >
+              {category.label}
+              <span className="ml-2 text-slate-400">{category.count}</span>
+            </Link>
+          ))}
+        </nav>
+      )}
+
+      {query && (
+        <p className="mb-6 text-sm text-slate-500">
+          {results.length} {results.length === 1 ? "article" : "articles"} matching “{query}”
+        </p>
+      )}
+
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {results.map(post => (
+          <BlogCard key={post.url} post={post} />
+        ))}
+      </div>
+
+      {results.length === 0 && (
+        <p className="py-16 text-center text-slate-500">
+          {posts.length === 0
+            ? "No articles published yet."
+            : "No articles matched that search."}
+        </p>
+      )}
+    </div>
+  );
+}
