@@ -1,0 +1,48 @@
+[
+  {
+    "company": "Mahatta Multimedia Pvt. Ltd.",
+    "position": "Cloud & DevOps Engineer",
+    "duration": "Feb 2021 – Present",
+    "location": "Delhi, India",
+    "technologies": [
+      "AWS",
+      "Terraform",
+      "Kubernetes",
+      "Linux",
+      "Jenkins",
+      "Docker",
+      "Cloudflare"
+    ],
+    "focus": "Cloud infrastructure · Platform engineering · Production reliability",
+    "impact": [
+      "Managed production cloud infrastructure supporting multiple business-critical applications.",
+      "Automated infrastructure provisioning and deployment workflows using Terraform and Jenkins.",
+      "Improved infrastructure efficiency through automation, reliability and cloud cost optimization."
+    ]
+  },
+  {
+    "company": "IBM India Pvt. Ltd.",
+    "position": "IT Infrastructure / Support Engineer",
+    "duration": "Nov 2018 – Jun 2019",
+    "location": "India",
+    "technologies": [
+      "Linux",
+      "IT Infrastructure",
+      "IT Support"
+    ],
+    "focus": "Enterprise IT infrastructure operations, system troubleshooting, and service availability support."
+  },
+  {
+    "company": "Evision Technoserve Pvt. Ltd.",
+    "position": "Desktop Support Engineer",
+    "duration": "Dec 2016 – May 2018",
+    "location": "India",
+    "technologies": [
+      "Windows",
+      "Networking",
+      "Hardware",
+      "IT Support"
+    ],
+    "focus": "Desktop hardware, network troubleshooting, and user incident resolution."
+  }
+]

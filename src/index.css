@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #ffffff;
+  color: #0f172a;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.dark body {
+  background: #020617;
+  color: #f8fafc;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.25);
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .glass {
+    @apply border border-slate-200/60 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/60;
+  }
+
+  .section {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .section-padding {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 bg-clip-text text-transparent;
+  }
+
+  .eyebrow {
+    @apply mb-3 text-sm font-semibold uppercase tracking-[.2em] text-indigo-500;
+  }
+
+  .page-title {
+    @apply font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-bold leading-tight tracking-tight sm:text-4xl;
+  }
+
+  .body-copy {
+    @apply text-base leading-7 text-slate-700 dark:text-slate-300 sm:text-lg sm:leading-8;
+  }
+
+  .supporting-copy {
+    @apply text-base leading-7 text-slate-600 dark:text-slate-400;
+  }
+
+  .meta-text {
+    @apply text-sm leading-6 text-slate-500 dark:text-slate-400;
+  }
+
+  .tag-text {
+    @apply text-xs font-medium leading-5 sm:text-sm;
+  }
+
+  .prose-content,
+  .prose-custom {
+    @apply text-[17px] leading-8 text-slate-700 dark:text-slate-300;
+  }
+
+  .prose-content h1, .prose-custom h1,
+  .prose-content h2, .prose-custom h2,
+  .prose-content h3, .prose-custom h3,
+  .prose-content h4, .prose-custom h4 {
+    @apply font-display font-bold tracking-tight text-slate-900 dark:text-white;
+  }
+
+  .prose-content h1, .prose-custom h1 {
+    @apply mb-6 mt-10 text-4xl leading-tight;
+  }
+
+  .prose-content h2, .prose-custom h2 {
+    @apply mb-4 mt-12 text-3xl leading-tight;
+  }
+
+  .prose-content h3, .prose-custom h3 {
+    @apply mb-3 mt-9 text-2xl leading-tight;
+  }
+
+  .prose-content p, .prose-custom p {
+    @apply mb-6 leading-8;
+  }
+
+  .prose-content ul, .prose-custom ul {
+    @apply mb-6 list-disc space-y-2 pl-6;
+  }
+
+  .prose-content ol, .prose-custom ol {
+    @apply mb-6 list-decimal space-y-2 pl-6;
+  }
+
+  .prose-content li, .prose-custom li {
+    @apply leading-8;
+  }
+
+  .prose-content a, .prose-custom a {
+    @apply font-medium text-indigo-600 underline underline-offset-4 hover:text-indigo-500 dark:text-indigo-400;
+  }
+
+  .prose-content blockquote, .prose-custom blockquote {
+    @apply my-7 border-l-4 border-indigo-500 pl-5 italic text-slate-600 dark:text-slate-400;
+  }
+
+  .prose-content img, .prose-custom img {
+    @apply my-8 h-auto max-w-full rounded-2xl;
+  }
+
+  .prose-content table, .prose-custom table {
+    @apply my-8 block w-full overflow-x-auto border-collapse;
+  }
+
+  .prose-content th, .prose-custom th {
+    @apply border border-slate-200 bg-slate-100 px-4 py-3 text-left font-semibold dark:border-slate-700 dark:bg-slate-800;
+  }
+
+  .prose-content td, .prose-custom td {
+    @apply border border-slate-200 px-4 py-3 dark:border-slate-700;
+  }
+
+  .prose-content pre, .prose-custom pre {
+    @apply my-7 overflow-x-auto rounded-xl bg-slate-950 p-5 text-sm leading-6 text-slate-100;
+  }
+
+  .prose-content code, .prose-custom code {
+    @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em] dark:bg-slate-800;
+  }
+
+  .prose-content pre code, .prose-custom pre code {
+    @apply bg-transparent p-0;
+  }
+}
+
+@media (max-width: 640px) {
+  .prose-content, .prose-custom {
+    @apply text-base leading-7;
+  }
+
+  .prose-content h1, .prose-custom h1 {
+    @apply text-3xl;
+  }
+
+  .prose-content h2, .prose-custom h2 {
+    @apply text-2xl;
+  }
+
+  .prose-content h3, .prose-custom h3 {
+    @apply text-xl;
+  }
+}

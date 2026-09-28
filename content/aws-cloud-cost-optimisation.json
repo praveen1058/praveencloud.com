@@ -1,0 +1,610 @@
+[
+  {
+    "slug": "aws-cloud-cost-optimization-governance",
+    "title": "AWS Cloud Cost Optimization & Governance Framework",
+    "description": "Production-oriented AWS Cloud Cost Optimization and Governance framework designed from a Cloud and DevOps engineering perspective. The case study demonstrates how to analyze cloud expenditure, identify infrastructure waste, establish cost governance, implement controlled optimization, automate safe processes and continuously measure cloud cost impact.",
+    "image": "images/aws-cloud-cost-th.png",
+    "technologies": [
+      "AWS",
+      "EC2",
+      "RDS",
+      "S3",
+      "EBS",
+      "NAT Gateway",
+      "VPC",
+      "IAM",
+      "AWS Budgets",
+      "CloudWatch",
+      "SNS",
+      "Terraform",
+      "Python",
+      "GitHub",
+      "GitHub Actions",
+      "FinOps"
+    ],
+    "github": "https://github.com/praveen1058/aws-cost-optimization-case-study-",
+    "live_demo": "",
+    "screenshots": [],
+    "architecture_image": "images/aws-cloud-cost-arch.png",
+
+    "executive_summary": "Designed an AWS Cloud Cost Optimization and Governance Framework for a simulated enterprise environment with an estimated monthly cloud spend of $50,000. The framework focuses on cost visibility, resource ownership, rightsizing, scheduling, storage optimization, networking cost analysis, governance, controlled automation and continuous savings validation. The simulated optimization assessment identifies approximately $11,500 in potential monthly savings, representing a potential 23% reduction and $138,000 annualized opportunity.",
+
+    "business_problem": "A growing organization has accumulated increasing AWS infrastructure costs across EC2, RDS, NAT Gateway, EBS, S3, data transfer and other AWS services. The organization needs to reduce unnecessary cloud expenditure without negatively affecting production availability, application performance, security, compliance or disaster recovery. The Cloud and DevOps team therefore requires a structured and repeatable framework for understanding AWS spending, identifying waste, assigning resource ownership, implementing governance, executing safe optimization and measuring financial impact.",
+
+    "project_objectives": [
+      "Analyze AWS cloud expenditure",
+      "Identify unnecessary and inefficient cloud spending",
+      "Establish resource ownership and cost allocation",
+      "Implement AWS cost governance",
+      "Identify EC2 and RDS rightsizing opportunities",
+      "Optimize non-production workloads",
+      "Review EBS and snapshot utilization",
+      "Optimize S3 storage and lifecycle policies",
+      "Analyze NAT Gateway and data transfer costs",
+      "Implement AWS Budgets and cost alerts",
+      "Apply IAM least-privilege principles",
+      "Manage governance infrastructure using Terraform",
+      "Automate cost analysis and reporting",
+      "Integrate cost governance with CI/CD",
+      "Continuously monitor and validate optimization results"
+    ],
+
+    "target_outcome": {
+      "baseline_monthly_cost": "$50,000",
+      "potential_monthly_saving": "$11,500",
+      "target_monthly_cost": "$38,500",
+      "potential_reduction": "23%",
+      "potential_annualized_saving": "$138,000",
+      "note": "These are simulated case-study values used to demonstrate the optimization methodology and should not be interpreted as actual customer savings."
+    },
+
+    "architecture": {
+      "overview": "The framework combines AWS infrastructure cost visibility, governance controls, monitoring, Infrastructure as Code and controlled optimization workflows. Recommendations are reviewed and approved before potentially impactful production changes are implemented.",
+      "flow": [
+        "AWS infrastructure",
+        "AWS Cost Management",
+        "Cost analysis and visibility",
+        "Resource tagging and ownership",
+        "Budget and monitoring controls",
+        "Optimization recommendations",
+        "Risk assessment",
+        "Owner approval",
+        "Implementation",
+        "Monitoring",
+        "Savings validation"
+      ],
+      "aws_components": [
+        "EC2",
+        "RDS",
+        "S3",
+        "EBS",
+        "NAT Gateway",
+        "VPC",
+        "IAM",
+        "CloudWatch",
+        "AWS Budgets",
+        "SNS"
+      ]
+    },
+
+    "technology_stack": {
+      "cloud": [
+        "AWS"
+      ],
+      "infrastructure": [
+        "Terraform"
+      ],
+      "governance": [
+        "AWS Budgets",
+        "IAM",
+        "CloudWatch",
+        "SNS"
+      ],
+      "automation": [
+        "Python",
+        "Bash",
+        "GitHub Actions"
+      ],
+      "methodology": [
+        "FinOps",
+        "Cloud Governance",
+        "Infrastructure as Code",
+        "Change Management"
+      ]
+    },
+
+    "repository_structure": {
+      "root": "aws-cost-optimization-case-study/",
+      "directories": [
+        "docs/",
+        "terraform/",
+        "github-actions/",
+        "scripts/",
+        "dashboards/",
+        "architecture/"
+      ],
+      "files": [
+        "README.md",
+        "docs/01-business-scenario.md",
+        "docs/02-current-state.md",
+        "docs/03-cost-analysis.md",
+        "docs/04-optimization-plan.md",
+        "docs/05-implementation.md",
+        "docs/06-security-governance.md",
+        "docs/07-results.md",
+        "terraform/budgets/main.tf",
+        "terraform/budgets/variables.tf",
+        "terraform/budgets/outputs.tf",
+        "github-actions/terraform-pipeline.yml",
+        "scripts/small-cost-checks.py",
+        "dashboards/aws-cost-dashboard.png",
+        "architecture/architecture.png"
+      ]
+    },
+
+    "cost_analysis": {
+      "description": "The initial simulated AWS monthly spend is analyzed by service to identify the largest areas of potential optimization.",
+      "monthly_spend": [
+        {
+          "service": "EC2",
+          "cost": "$18,000"
+        },
+        {
+          "service": "RDS",
+          "cost": "$10,000"
+        },
+        {
+          "service": "NAT Gateway",
+          "cost": "$6,000"
+        },
+        {
+          "service": "Data Transfer",
+          "cost": "$5,000"
+        },
+        {
+          "service": "EBS & Snapshots",
+          "cost": "$4,000"
+        },
+        {
+          "service": "S3",
+          "cost": "$3,000"
+        },
+        {
+          "service": "Other AWS Services",
+          "cost": "$4,000"
+        }
+      ],
+      "total_monthly_cost": "$50,000",
+      "analysis_areas": [
+        "Compute utilization",
+        "Database utilization",
+        "Non-production runtime patterns",
+        "Unused EBS volumes",
+        "Snapshot retention",
+        "S3 storage classes",
+        "S3 lifecycle policies",
+        "NAT Gateway traffic",
+        "Data transfer patterns",
+        "Resource ownership",
+        "Tagging compliance"
+      ]
+    },
+
+    "optimization_strategy": {
+      "methodology": [
+        "Identify",
+        "Analyze",
+        "Recommend",
+        "Assess Risk",
+        "Approve",
+        "Implement",
+        "Monitor",
+        "Validate Savings"
+      ],
+      "principle": "The framework avoids blindly modifying or deleting production resources. Optimization recommendations are evaluated for business impact, reliability, security and operational risk before implementation."
+    },
+
+    "optimization_opportunities": [
+      {
+        "area": "EC2 Rightsizing",
+        "potential_monthly_saving": "$4,500",
+        "risk": "Medium",
+        "approach": "Analyze utilization metrics and identify oversized or underutilized instances before recommending rightsizing."
+      },
+      {
+        "area": "Non-Production Scheduling",
+        "potential_monthly_saving": "$2,500",
+        "risk": "Low/Medium",
+        "approach": "Identify development and test workloads that can be automatically stopped outside business hours."
+      },
+      {
+        "area": "RDS Rightsizing",
+        "potential_monthly_saving": "$2,000",
+        "risk": "Medium",
+        "approach": "Review database utilization and workload characteristics before recommending instance changes."
+      },
+      {
+        "area": "EBS and Snapshots",
+        "potential_monthly_saving": "$1,000",
+        "risk": "Low",
+        "approach": "Identify unattached volumes, unnecessary snapshots and excessive retention."
+      },
+      {
+        "area": "NAT Gateway",
+        "potential_monthly_saving": "$1,000",
+        "risk": "Medium/High",
+        "approach": "Analyze traffic patterns and evaluate alternatives such as VPC endpoints or improved network architecture."
+      },
+      {
+        "area": "S3 Optimization",
+        "potential_monthly_saving": "$500",
+        "risk": "Low",
+        "approach": "Review storage classes, lifecycle policies, object retention and infrequently accessed data."
+      }
+    ],
+
+    "optimization_total": {
+      "potential_monthly_saving": "$11,500",
+      "potential_annualized_saving": "$138,000",
+      "potential_cost_reduction": "23%"
+    },
+
+    "terraform_implementation": {
+      "description": "Terraform is used to manage cloud governance infrastructure and provide a version-controlled and repeatable implementation model.",
+      "current_implementation": [
+        "AWS Budgets",
+        "Monthly spending thresholds",
+        "Actual spending alerts",
+        "Forecasted spending alerts",
+        "Configurable notification targets"
+      ],
+      "planned_components": [
+        "IAM",
+        "Monitoring",
+        "Tagging",
+        "Cost governance resources"
+      ],
+      "benefits": [
+        "Version-controlled governance configuration",
+        "Repeatable deployment",
+        "Infrastructure change review",
+        "Reduced manual configuration",
+        "Consistent governance across environments"
+      ]
+    },
+
+    "aws_budget": {
+      "description": "AWS Budgets are managed through Terraform to provide proactive cost governance and spending notifications.",
+      "controls": [
+        "Monthly spending threshold",
+        "Actual spending alerts",
+        "Forecasted spending alerts",
+        "Configurable notification email",
+        "Terraform-managed budget configuration"
+      ]
+    },
+
+    "security_and_governance": {
+      "principles": [
+        "Least-privilege IAM",
+        "Production resource protection",
+        "Infrastructure as Code",
+        "Resource tagging",
+        "Resource ownership",
+        "Controlled changes",
+        "Pull-request-based deployment",
+        "GitHub OIDC authentication",
+        "Terraform state protection",
+        "Monitoring and auditing"
+      ],
+      "governance_model": [
+        "Resource ownership",
+        "Environment classification",
+        "Cost allocation",
+        "Mandatory tagging",
+        "Budget controls",
+        "Change approval",
+        "Production protection",
+        "Continuous monitoring"
+      ]
+    },
+
+    "safety_approach": {
+      "description": "The optimization framework does not blindly delete, stop, resize or modify AWS resources. Potentially impactful changes require review and approval.",
+      "workflow": [
+        "Detection",
+        "Recommendation",
+        "Resource Owner Review",
+        "Risk Assessment",
+        "Approval",
+        "Implementation",
+        "Monitoring",
+        "Savings Validation"
+      ],
+      "production_controls": [
+        "Production resources require additional approval",
+        "Destructive actions require explicit review",
+        "Optimization changes should follow change management",
+        "Application performance must be validated after changes",
+        "Rollback procedures should be available for high-risk changes"
+      ]
+    },
+
+    "ci_cd_strategy": {
+      "description": "Terraform governance changes are designed to follow a pull-request-based CI/CD workflow using GitHub Actions.",
+      "workflow": [
+        "Developer creates feature branch",
+        "Developer updates Terraform configuration",
+        "Pull request is created",
+        "GitHub Actions runs Terraform formatting",
+        "Terraform validation is executed",
+        "Terraform plan is generated",
+        "Security scanning is executed",
+        "Code review is performed",
+        "Approval is obtained",
+        "Terraform apply is executed",
+        "Infrastructure changes are validated"
+      ],
+      "pipeline_steps": [
+        "Terraform Format",
+        "Terraform Validate",
+        "Terraform Plan",
+        "Security Scan",
+        "Code Review",
+        "Approval",
+        "Terraform Apply"
+      ]
+    },
+
+    "automation": {
+      "description": "The framework is designed to gradually automate cost analysis and recommendation generation while keeping production changes under controlled approval.",
+      "planned_automation": [
+        "Cost analysis scripts",
+        "Resource utilization analysis",
+        "Idle resource detection",
+        "Cost recommendation reporting",
+        "Tag compliance checks",
+        "Budget monitoring",
+        "Automated notifications",
+        "GitHub Actions integration",
+        "Security scanning"
+      ]
+    },
+
+    "monitoring": {
+      "description": "Monitoring is used to track AWS infrastructure utilization and validate the impact of optimization activities.",
+      "areas": [
+        "EC2 CPU utilization",
+        "EC2 memory utilization where available",
+        "RDS CPU utilization",
+        "RDS connections",
+        "EBS utilization",
+        "NAT Gateway traffic",
+        "S3 storage usage",
+        "AWS account spending",
+        "Budget threshold breaches"
+      ],
+      "tools": [
+        "CloudWatch",
+        "AWS Budgets",
+        "SNS",
+        "Cost Management"
+      ]
+    },
+
+    "results": {
+      "description": "The case study uses simulated financial results to demonstrate how cost optimization opportunities can be quantified.",
+      "baseline": "$50,000 monthly",
+      "potential_savings": "$11,500 monthly",
+      "target_cost": "$38,500 monthly",
+      "potential_reduction": "23%",
+      "annualized_opportunity": "$138,000",
+      "note": "These figures are simulated case-study values and are not claimed production savings."
+    },
+
+    "implementation_status": [
+      {
+        "component": "Business Scenario",
+        "status": "Complete"
+      },
+      {
+        "component": "Current State Assessment",
+        "status": "Complete"
+      },
+      {
+        "component": "Cost Analysis",
+        "status": "Complete"
+      },
+      {
+        "component": "Optimization Plan",
+        "status": "Complete"
+      },
+      {
+        "component": "Implementation Design",
+        "status": "Complete"
+      },
+      {
+        "component": "Security & Governance",
+        "status": "Complete"
+      },
+      {
+        "component": "Results & Outcomes",
+        "status": "Complete"
+      },
+      {
+        "component": "AWS Budget Terraform",
+        "status": "Complete"
+      },
+      {
+        "component": "IAM Terraform",
+        "status": "Planned"
+      },
+      {
+        "component": "Monitoring Terraform",
+        "status": "Planned"
+      },
+      {
+        "component": "Tagging Terraform",
+        "status": "Planned"
+      },
+      {
+        "component": "Cost Analysis Script",
+        "status": "Planned"
+      },
+      {
+        "component": "GitHub Actions",
+        "status": "Planned"
+      },
+      {
+        "component": "Cost Dashboard",
+        "status": "Planned"
+      },
+      {
+        "component": "Architecture Diagram",
+        "status": "Planned"
+      }
+    ],
+
+    "cloud_devops_concepts": {
+      "aws": [
+        "AWS Cost Management",
+        "EC2",
+        "RDS",
+        "EBS",
+        "S3",
+        "VPC",
+        "NAT Gateway",
+        "IAM",
+        "CloudWatch",
+        "AWS Budgets",
+        "SNS"
+      ],
+      "devops": [
+        "Terraform",
+        "Infrastructure as Code",
+        "Git",
+        "GitHub",
+        "GitHub Actions",
+        "CI/CD",
+        "Security Scanning",
+        "Change Management"
+      ],
+      "cloud_governance": [
+        "Resource Tagging",
+        "Resource Ownership",
+        "Least Privilege",
+        "Budget Controls",
+        "Cost Allocation",
+        "Production Protection",
+        "Optimization Governance"
+      ],
+      "finops": [
+        "Cost Visibility",
+        "Cost Allocation",
+        "Rightsizing",
+        "Waste Identification",
+        "Savings Estimation",
+        "Continuous Optimization"
+      ]
+    },
+
+    "roadmap": {
+      "phase_1_documentation": [
+        "Business scenario",
+        "Current-state assessment",
+        "Cost analysis",
+        "Optimization plan",
+        "Implementation design",
+        "Security and governance",
+        "Results"
+      ],
+      "phase_2_terraform": [
+        "AWS Budget",
+        "IAM",
+        "Monitoring",
+        "Tagging"
+      ],
+      "phase_3_automation": [
+        "Cost analysis script",
+        "Resource detection",
+        "Recommendation reporting",
+        "GitHub Actions",
+        "Security scanning"
+      ],
+      "phase_4_reporting": [
+        "AWS cost dashboard",
+        "Architecture diagram",
+        "Before and after visualization",
+        "Optimization report"
+      ]
+    },
+
+    "key_engineering_decisions": [
+      {
+        "area": "Cost Governance",
+        "decision": "Establish visibility and ownership before optimization",
+        "reason": "Cost optimization is more sustainable when teams understand resource ownership, spending patterns and accountability."
+      },
+      {
+        "area": "EC2 Optimization",
+        "decision": "Use utilization-driven rightsizing",
+        "reason": "Rightsizing should be based on workload behavior rather than simply selecting smaller instance types."
+      },
+      {
+        "area": "Production Safety",
+        "decision": "Require approval for impactful changes",
+        "reason": "Cost savings should not come at the expense of availability, performance or business continuity."
+      },
+      {
+        "area": "Infrastructure Governance",
+        "decision": "Use Terraform",
+        "reason": "Governance infrastructure and configuration should be version-controlled, reviewable and reproducible."
+      },
+      {
+        "area": "CI/CD",
+        "decision": "Use GitHub Actions",
+        "reason": "Automated validation and Terraform plan workflows reduce configuration errors and provide a controlled deployment process."
+      },
+      {
+        "area": "FinOps",
+        "decision": "Measure savings continuously",
+        "reason": "Optimization is an ongoing process and requires validation after implementation to confirm that expected savings are realized."
+      }
+    ],
+
+    "challenges": "Reducing AWS cloud expenditure without compromising production availability, application performance, security or disaster recovery. The main challenges include identifying genuine waste, distinguishing optimization opportunities from business-critical resources, establishing resource ownership, controlling production changes and creating a repeatable process for measuring savings.",
+
+    "solution": "Designed a structured FinOps and Cloud Governance framework combining AWS cost analysis, resource tagging, rightsizing, non-production scheduling, storage optimization, networking analysis, AWS Budgets, IAM governance, Terraform and CI/CD. Optimization recommendations follow a controlled identify-analyze-approve-implement-monitor-validate workflow to balance financial savings with operational and production risk.",
+
+    "lessons_learned": [
+      "Cloud cost optimization requires continuous analysis rather than one-time cleanup.",
+      "Resource ownership and tagging are foundational to effective cost governance.",
+      "Rightsizing decisions should be based on utilization and workload behavior.",
+      "Production cost optimization must consider availability and application performance.",
+      "Automating recommendations is safer than automatically making destructive changes.",
+      "Budget alerts provide proactive visibility into unexpected spending.",
+      "Infrastructure governance should be managed as code where possible.",
+      "FinOps requires collaboration between engineering, operations, finance and business teams.",
+      "Savings should be measured after implementation rather than assumed from recommendations.",
+      "Cost optimization is most effective when integrated into normal DevOps and change-management processes."
+    ],
+
+    "portfolio_highlights": [
+      "Designed an enterprise-style AWS cost optimization framework.",
+      "Analyzed a simulated $50,000 monthly AWS environment.",
+      "Identified a simulated $11,500 monthly optimization opportunity.",
+      "Demonstrated EC2 and RDS rightsizing strategies.",
+      "Designed non-production scheduling and storage optimization strategies.",
+      "Analyzed NAT Gateway and data transfer cost drivers.",
+      "Implemented AWS Budgets using Terraform.",
+      "Applied least-privilege IAM and governance principles.",
+      "Designed a controlled optimization workflow for production environments.",
+      "Integrated Infrastructure as Code and CI/CD practices into cloud governance.",
+      "Applied practical FinOps principles to AWS infrastructure operations."
+    ],
+
+    "disclaimer": "This repository is a portfolio and learning case study. AWS architecture, cost figures, utilization assumptions, optimization opportunities and savings estimates are simulated for demonstration purposes. No actual customer data, credentials or confidential infrastructure information is included.",
+
+    "status": "Cloud Cost Optimization / FinOps / Governance"
+  }
+]

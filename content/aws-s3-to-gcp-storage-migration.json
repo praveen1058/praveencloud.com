@@ -1,0 +1,479 @@
+[
+  {
+    "slug": "aws-s3-to-gcp-storage-migration",
+    "title": "AWS S3 → Google Cloud Storage: 15 TB Production Migration",
+    "description": "Designed and implemented a production-grade cross-cloud migration strategy to move approximately 15 TB of object data from Amazon S3 to Google Cloud Storage with minimal application disruption. The migration focused on data integrity, minimal downtime, incremental synchronization, secure cross-cloud access, automated validation, monitoring, failure handling and rollback capability.",
+    "image": "/images/aws-to-gcp-th.png",
+    "technologies": [
+      "AWS",
+      "Amazon S3",
+      "Google Cloud",
+      "Google Cloud Storage",
+      "Storage Transfer Service",
+      "AWS IAM",
+      "Google Cloud IAM",
+      "Terraform",
+      "Python",
+      "Bash",
+      "GitHub Actions",
+      "Cloud Monitoring"
+    ],
+    "github": "https://github.com/praveen1058/aws-cost-optimization-case-study-",
+    "live_demo": "",
+    "screenshots": [],
+    "architecture_image": "/images/aws-to-gcp-arch.png",
+
+    "executive_summary": "Designed and implemented a production-grade migration strategy to move approximately 15 TB of object data from Amazon S3 to Google Cloud Storage while minimizing application disruption. The migration architecture was designed around controlled bulk transfer, incremental synchronization, automated reconciliation, secure cross-cloud access, production cutover validation and rollback capability.",
+
+    "features": [
+      "15 TB cross-cloud object storage migration",
+      "AWS S3 to Google Cloud Storage migration",
+      "Managed bulk transfer using Google Cloud Storage Transfer Service",
+      "Incremental synchronization for continuously changing production data",
+      "Object count reconciliation",
+      "Total byte and size reconciliation",
+      "Object-level validation",
+      "Checksum and integrity validation where available",
+      "Production cutover with minimal downtime",
+      "Rollback capability using the original S3 source",
+      "Secure cross-cloud IAM configuration",
+      "Least-privilege migration identities",
+      "Encryption in transit and at rest",
+      "Migration progress and failure monitoring",
+      "Retry and failure-handling strategy",
+      "Migration cost analysis",
+      "Infrastructure and configuration automation",
+      "Sanitized infrastructure and validation reference implementation"
+    ],
+
+    "architecture": {
+      "overview": "The migration architecture uses Google Cloud Storage Transfer Service as the managed data movement layer between the AWS S3 source and Google Cloud Storage destination. The source environment remains available throughout the migration to support incremental synchronization, validation and rollback.",
+      "components": [
+        "AWS S3 source bucket",
+        "Google Cloud Storage Transfer Service",
+        "Google Cloud Storage destination bucket",
+        "AWS IAM migration identity",
+        "Google Cloud IAM migration permissions",
+        "Validation and reconciliation tooling",
+        "Migration monitoring",
+        "Application cutover process"
+      ],
+      "data_flow": [
+        "Production objects are stored in AWS S3",
+        "Storage Transfer Service performs the initial bulk transfer",
+        "Transferred objects are written to Google Cloud Storage",
+        "Application continues operating against the source during migration",
+        "Incremental synchronization transfers newly created or changed objects",
+        "Final synchronization is performed during the controlled cutover window",
+        "Source and destination are reconciled",
+        "Application configuration is switched to Google Cloud Storage",
+        "AWS S3 is retained during the rollback window"
+      ]
+    },
+
+    "migration_objectives": {
+      "source": "AWS S3",
+      "destination": "Google Cloud Storage",
+      "data_volume": "Approximately 15 TB",
+      "migration_type": "Cross-cloud production migration",
+      "data_loss_target": "0",
+      "object_count_mismatch_target": "0",
+      "size_mismatch_target": "0 bytes",
+      "checksum_mismatch_target": "0 where checksum validation is available",
+      "source_deletion": "Disabled initially",
+      "rollback": "Required",
+      "downtime": "Minimal"
+    },
+
+    "migration_strategy": {
+      "description": "The migration was divided into discovery, initial transfer, incremental synchronization, validation and controlled production cutover phases.",
+      "phases": [
+        {
+          "phase": "Phase 1 - Discovery",
+          "objective": "Establish a reliable baseline before transferring production data.",
+          "activities": [
+            "Collect total object count",
+            "Calculate total object size",
+            "Analyze object distribution by prefix",
+            "Identify large-object distribution",
+            "Identify small-object distribution",
+            "Review existing encryption configuration",
+            "Review storage classes",
+            "Review object versioning requirements",
+            "Analyze application read and write patterns",
+            "Document migration assumptions and dependencies"
+          ],
+          "baseline": {
+            "source": "AWS S3",
+            "objects": "<REDACTED>",
+            "total_size": "~15 TB",
+            "prefixes": "<REDACTED>",
+            "largest_file": "<REDACTED>"
+          }
+        },
+        {
+          "phase": "Phase 2 - Initial Migration",
+          "objective": "Perform the initial bulk transfer of approximately 15 TB.",
+          "activities": [
+            "Configure Storage Transfer Service",
+            "Establish secure source access",
+            "Configure destination access",
+            "Start initial bulk transfer",
+            "Monitor transfer progress",
+            "Monitor failed objects",
+            "Retry transient failures",
+            "Retain source S3 data during transfer"
+          ]
+        },
+        {
+          "phase": "Phase 3 - Incremental Synchronization",
+          "objective": "Synchronize changes created or modified after the initial transfer.",
+          "activities": [
+            "Allow production application to continue operating against S3",
+            "Identify objects changed after the initial migration",
+            "Run incremental synchronization",
+            "Monitor incremental transfer",
+            "Reconcile transferred objects",
+            "Prepare for final synchronization"
+          ]
+        },
+        {
+          "phase": "Phase 4 - Final Validation",
+          "objective": "Verify that the destination accurately represents the production source before application cutover.",
+          "activities": [
+            "Stop or quiesce application writes",
+            "Run final synchronization",
+            "Compare object counts",
+            "Compare total bytes",
+            "Perform object-level reconciliation",
+            "Validate checksums where available",
+            "Investigate mismatches",
+            "Confirm zero critical validation failures"
+          ]
+        },
+        {
+          "phase": "Phase 5 - Production Cutover",
+          "objective": "Move application traffic to Google Cloud Storage with minimal downtime.",
+          "activities": [
+            "Complete final synchronization",
+            "Confirm validation results",
+            "Update application storage configuration",
+            "Point application workloads to GCS",
+            "Run application smoke tests",
+            "Enable production monitoring",
+            "Keep AWS S3 available for rollback"
+          ]
+        }
+      ]
+    },
+
+    "data_validation": {
+      "description": "Validation is performed at multiple levels to ensure that the destination contains the expected production data before cutover.",
+      "validation_levels": [
+        {
+          "type": "Object Count",
+          "method": "Compare the total number of objects in S3 with the total number of objects in GCS.",
+          "expected_result": "Difference = 0"
+        },
+        {
+          "type": "Total Size",
+          "method": "Compare the total number of bytes stored in S3 with the total number of bytes stored in GCS.",
+          "expected_result": "Difference = 0 bytes"
+        },
+        {
+          "type": "Object-Level Validation",
+          "method": "Compare object names and sizes between the source and destination and validate checksums where supported.",
+          "expected_result": "Missing objects = 0, extra objects = 0, size mismatches = 0, checksum mismatches = 0 where applicable"
+        }
+      ],
+      "validation_metrics": [
+        "Missing objects",
+        "Extra objects",
+        "Object count mismatch",
+        "Object size mismatch",
+        "Total byte mismatch",
+        "Checksum mismatch",
+        "Transfer failures"
+      ]
+    },
+
+    "cutover": {
+      "description": "Production cutover is performed only after the final synchronization and validation checks have completed successfully.",
+      "flow": [
+        "Production application",
+        "AWS S3",
+        "Final synchronization",
+        "Google Cloud Storage",
+        "Validation and reconciliation",
+        "Application configuration update",
+        "Production application using GCS"
+      ],
+      "checklist": [
+        "Initial migration completed",
+        "Failed objects investigated and resolved",
+        "Object counts match",
+        "Total bytes match",
+        "Object-level reconciliation completed",
+        "Final incremental synchronization completed",
+        "Application writes stopped or quiesced",
+        "Final validation completed",
+        "Application pointed to GCS",
+        "Application smoke tests completed",
+        "Monitoring enabled",
+        "AWS S3 retained for rollback"
+      ]
+    },
+
+    "rollback_strategy": {
+      "description": "The original AWS S3 source is retained during the defined rollback window to avoid making the migration irreversible before application validation is complete.",
+      "rollback_flow": [
+        "Application validation detects an issue",
+        "Application storage configuration is reverted",
+        "Application is pointed back to AWS S3",
+        "Application health and data access are validated",
+        "Migration issue is investigated before another cutover attempt"
+      ],
+      "rollback_triggers": [
+        "Unexpected missing objects",
+        "Application read failures",
+        "IAM or permission failures",
+        "Unexpected performance degradation",
+        "Object consistency issues",
+        "Business validation failure",
+        "Critical production application errors"
+      ]
+    },
+
+    "security": {
+      "description": "The migration was designed around least-privilege access and avoiding long-lived credentials in source control.",
+      "controls": [
+        "Least-privilege AWS IAM permissions",
+        "Dedicated migration identity",
+        "No credentials stored in Git",
+        "Encryption at rest",
+        "Encryption in transit",
+        "Restricted destination access",
+        "Bucket access logging and auditing",
+        "Cloud-native secret management",
+        "Separate source and destination permissions"
+      ],
+      "permission_model": {
+        "migration_identity": [
+          "AWS S3: Required list and read permissions only",
+          "Google Cloud Storage: Required destination write permissions only"
+        ]
+      }
+    },
+
+    "observability": {
+      "description": "Migration progress and operational health are monitored throughout the transfer and validation lifecycle.",
+      "metrics": [
+        "Bytes transferred",
+        "Objects transferred",
+        "Transfer rate",
+        "Failed objects",
+        "Retry count",
+        "Remaining objects",
+        "Remaining bytes",
+        "Validation status",
+        "Reconciliation results"
+      ],
+      "dashboard_example": {
+        "total_data": "15 TB",
+        "transferred": "XX TB",
+        "remaining": "XX GB",
+        "objects": "XXXXX",
+        "failed": 0,
+        "validation": "PASS"
+      }
+    },
+
+    "failure_handling": [
+      {
+        "scenario": "Individual object transfer failure",
+        "response": "Retry the object transfer and investigate persistent failures."
+      },
+      {
+        "scenario": "Permission failure",
+        "response": "Validate AWS IAM and Google Cloud IAM permissions and confirm least-privilege access requirements."
+      },
+      {
+        "scenario": "Destination quota issue",
+        "response": "Review destination capacity and applicable Google Cloud quotas."
+      },
+      {
+        "scenario": "Network or API transient error",
+        "response": "Use managed transfer retry mechanisms and investigate persistent failures."
+      },
+      {
+        "scenario": "Object mismatch",
+        "response": "Identify affected objects and perform targeted reconciliation or retransmission."
+      },
+      {
+        "scenario": "Application failure after cutover",
+        "response": "Execute the rollback procedure and restore application access to AWS S3."
+      },
+      {
+        "scenario": "Validation failure",
+        "response": "Do not complete production cutover until the discrepancy is resolved."
+      }
+    ],
+
+    "cost_considerations": {
+      "description": "Migration costs were evaluated across both cloud environments before production execution.",
+      "aws_cost_factors": [
+        "S3 storage",
+        "Data transfer and egress",
+        "S3 API requests",
+        "Temporary migration-related resources"
+      ],
+      "gcp_cost_factors": [
+        "Google Cloud Storage capacity",
+        "Storage operations",
+        "Network costs",
+        "Storage Transfer Service costs where applicable",
+        "Long-term storage class selection"
+      ],
+      "recommendation": "Actual production costs should be replaced with measured billing data when available rather than using estimated values in the public case study."
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Use Google Cloud Storage Transfer Service",
+        "reason": "A managed transfer service reduces the operational overhead of maintaining custom transfer infrastructure and provides transfer orchestration, retries, monitoring and integrity handling."
+      },
+      {
+        "decision": "Retain AWS S3 during migration",
+        "reason": "Keeping the source available provides a rollback path and prevents an irreversible migration decision before application and data validation are complete."
+      },
+      {
+        "decision": "Use incremental synchronization",
+        "reason": "Production data may continue changing after the initial bulk transfer, so incremental synchronization is required to capture changes before cutover."
+      },
+      {
+        "decision": "Perform multi-level validation",
+        "reason": "Object count and total size alone do not provide sufficient assurance that every object has been migrated correctly."
+      },
+      {
+        "decision": "Use controlled cutover",
+        "reason": "Quiescing application writes during the final synchronization reduces the risk of data divergence during the transition."
+      },
+      {
+        "decision": "Avoid long-lived credentials",
+        "reason": "Cloud-native IAM and secret management reduce credential exposure and support stronger security controls."
+      }
+    ],
+
+    "why_storage_transfer_service": {
+      "decision": "Google Cloud Storage Transfer Service",
+      "reason": "For a large production cross-cloud migration, a managed transfer service provides transfer orchestration, scheduling, retry handling, operational visibility and reduced infrastructure management compared with building and maintaining a fleet of custom transfer workers."
+    },
+
+    "why_not_simple_cli_sync": {
+      "decision": "Avoid relying solely on a basic CLI synchronization process",
+      "reason": "A CLI-based synchronization approach can be useful for smaller workloads, but a production-scale 15 TB migration benefits from managed transfer orchestration, better operational visibility, retry handling, scheduling, reconciliation and reduced operational overhead.",
+      "considerations": [
+        "Managed transfer orchestration",
+        "Retry handling",
+        "Transfer monitoring",
+        "Scheduling",
+        "Production reconciliation",
+        "Reduced operational overhead"
+      ]
+    },
+
+    "lessons_learned": [
+      "Large-scale data migration is primarily a data integrity and operational risk problem rather than simply a file-copy problem.",
+      "Object count and total bytes alone are insufficient for strong migration validation.",
+      "Production writes must be explicitly handled throughout the migration lifecycle.",
+      "Final synchronization and application cutover require a controlled change window.",
+      "Source data should not be deleted immediately after migration.",
+      "Least-privilege cross-cloud access is critical for secure migration operations.",
+      "Large numbers of small objects can behave differently from a small number of large objects during large-scale transfer.",
+      "Migration monitoring and reconciliation should be automated rather than performed manually.",
+      "Rollback planning should be part of the migration design before production cutover.",
+      "Data validation should be treated as a first-class migration phase rather than an afterthought."
+    ],
+
+    "operational_workflow": [
+      "Discover and baseline source data",
+      "Analyze object distribution and application access patterns",
+      "Configure cross-cloud IAM permissions",
+      "Configure Storage Transfer Service",
+      "Perform initial bulk migration",
+      "Monitor transfer progress and failures",
+      "Perform incremental synchronization",
+      "Quiesce application writes during final cutover",
+      "Run final synchronization",
+      "Perform object count and byte reconciliation",
+      "Perform object-level validation",
+      "Validate application access",
+      "Switch application configuration to GCS",
+      "Perform production smoke testing",
+      "Monitor post-cutover behavior",
+      "Retain S3 for the defined rollback window",
+      "Decommission source resources only after migration acceptance"
+    ],
+
+    "portfolio_highlights": [
+      "Designed a 15 TB production-scale cross-cloud object storage migration.",
+      "Implemented a controlled AWS S3 to Google Cloud Storage migration strategy.",
+      "Used managed Google Cloud Storage Transfer Service for bulk and incremental transfer.",
+      "Designed multi-level data validation and reconciliation.",
+      "Implemented object count, byte-level and checksum-based validation where available.",
+      "Designed a production cutover process with minimal downtime.",
+      "Maintained AWS S3 as a rollback source during the migration window.",
+      "Applied least-privilege AWS and Google Cloud IAM principles.",
+      "Designed migration monitoring, failure handling and retry workflows.",
+      "Evaluated cross-cloud migration cost factors.",
+      "Automated infrastructure and validation components using Terraform, Python and Bash."
+    ],
+
+    "challenges": "Migrating approximately 15 TB of production object data between cloud providers while maintaining data integrity and minimizing application disruption. The major challenges included handling continuously changing source data, performing reliable object-level reconciliation, controlling cross-cloud permissions, managing transfer failures, coordinating final synchronization and maintaining a safe rollback path.",
+    
+    "solution": "Used Google Cloud Storage Transfer Service for the initial bulk migration and incremental synchronization, retained AWS S3 as the source of truth during the migration window, implemented multi-level validation using object counts, total bytes, object metadata and checksums where available, and performed a controlled final synchronization and application cutover only after validation succeeded. Cross-cloud access was secured through least-privilege IAM permissions, while monitoring and failure-handling mechanisms provided operational visibility throughout the migration.",
+
+    "repository_structure": {
+      "description": "The public repository is a sanitized reference implementation and does not contain production credentials, customer data or sensitive infrastructure configuration.",
+      "folders": [
+        "docs/",
+        "architecture/",
+        "terraform/",
+        "scripts/",
+        "validation/",
+        ".github/workflows/"
+      ],
+      "recommended_files": [
+        "README.md",
+        "docs/migration-strategy.md",
+        "docs/cutover-plan.md",
+        "docs/rollback-plan.md",
+        "docs/validation-strategy.md",
+        "docs/security.md",
+        "docs/cost-analysis.md",
+        "architecture/migration-architecture.png",
+        "terraform/",
+        "scripts/",
+        "validation/",
+        ".github/workflows/"
+      ]
+    },
+
+    "future_enhancements": [
+      "Automate migration baseline generation",
+      "Automate object-level reconciliation reports",
+      "Integrate migration validation into CI/CD workflows",
+      "Add automated migration dashboards",
+      "Add alerting for transfer failures and validation mismatches",
+      "Automate pre-cutover readiness checks",
+      "Automate post-cutover application smoke tests",
+      "Add automated rollback orchestration",
+      "Integrate cloud cost estimation into the migration workflow",
+      "Add infrastructure policy and security scanning"
+    ],
+
+    "repository_disclaimer": "This repository is a sanitized reference implementation and portfolio case study. Production bucket names, credentials, customer information, object names, IP addresses, AWS account IDs, Google Cloud project IDs and other sensitive configuration have been removed or replaced with placeholders.",
+
+    "status": "Production Migration / Cloud Migration Case Study"
+  }
+]

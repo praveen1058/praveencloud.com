@@ -1,0 +1,402 @@
+[
+  {
+    "slug": "aws-ecommerce-microservices-devops",
+    "title": "Real-Time E-Commerce Microservices DevOps Platform",
+    "description": "End-to-end DevOps implementation for a real-time e-commerce microservices application, covering local development, containerization, AWS infrastructure provisioning, Kubernetes orchestration, networking, GitOps and automated CI/CD. The project demonstrates a production-oriented approach to deploying and managing a distributed application on AWS using Infrastructure as Code and declarative application delivery.",
+    "image": "/images/cloud-operation-th.png",
+    "technologies": [
+      "AWS",
+      "Terraform",
+      "Docker",
+      "Docker Compose",
+      "Kubernetes",
+      "Amazon EKS",
+      "Amazon ECR",
+      "IAM",
+      "VPC",
+      "Security Groups",
+      "Route 53",
+      "GitHub Actions",
+      "Argo CD",
+      "GitOps"
+    ],
+    "github": "https://github.com/praveen1058/Real-Time-E-Commerce-Microservices-Platform-AWS-Kubernetes-GitOps",
+    "live_demo": "",
+    "screenshots": [],
+    "architecture_image": "/images/cloud-operation-arch.png",
+    "features": [
+      "Real-time e-commerce application based on a microservices architecture",
+      "Local development environment using Docker Compose",
+      "Containerization of application microservices using Docker",
+      "AWS account and IAM configuration",
+      "EC2-based DevOps administration environment",
+      "AWS VPC and networking infrastructure",
+      "Infrastructure provisioning and management using Terraform",
+      "Terraform remote state management",
+      "Terraform backend configuration",
+      "Terraform state locking",
+      "Amazon EKS cluster provisioning using Terraform",
+      "Kubernetes deployment and service configuration",
+      "Kubernetes Ingress configuration",
+      "Ingress Controller setup for external application traffic",
+      "Kubernetes StorageClass configuration",
+      "PersistentVolume and PersistentVolumeClaim configuration",
+      "Application deployment and validation on Amazon EKS",
+      "Custom domain configuration using Amazon Route 53",
+      "DNS integration with the Kubernetes application endpoint",
+      "GitOps-based Kubernetes deployment using Argo CD",
+      "Continuous Integration using GitHub Actions",
+      "Automated Docker image build and publishing workflow",
+      "Integration of GitHub Actions with Argo CD",
+      "End-to-end CI/CD workflow from source code change to Kubernetes deployment",
+      "Documented deployment and operational workflow"
+    ],
+    "architecture": {
+      "overview": "The platform follows a cloud-native architecture where application microservices are containerized with Docker and deployed to Amazon EKS. AWS infrastructure is provisioned through Terraform, while GitHub Actions provides continuous integration and Argo CD provides GitOps-based continuous delivery.",
+      "request_flow": [
+        "End user accesses the e-commerce application through the custom domain",
+        "Amazon Route 53 resolves the application domain",
+        "External traffic reaches the AWS load balancer associated with the Kubernetes Ingress",
+        "Kubernetes Ingress routes requests to the appropriate microservice",
+        "Kubernetes Services provide stable networking to application workloads",
+        "Microservices run as Docker containers inside Amazon EKS"
+      ],
+      "deployment_flow": [
+        "Developer commits application changes to GitHub",
+        "GitHub Actions starts the CI workflow",
+        "Application dependencies are installed and build or validation steps are executed",
+        "Docker images are built for the affected microservice",
+        "Container images are tagged and pushed to Amazon ECR",
+        "Kubernetes deployment configuration is updated through the GitOps workflow",
+        "Argo CD detects the desired-state change in Git",
+        "Argo CD synchronizes the Kubernetes resources with Amazon EKS",
+        "The updated microservice is deployed to the Kubernetes cluster"
+      ],
+      "infrastructure_flow": [
+        "Terraform configuration defines AWS infrastructure as code",
+        "Terraform backend stores infrastructure state remotely",
+        "Terraform state locking prevents conflicting infrastructure changes",
+        "Terraform provisions networking and supporting AWS resources",
+        "Terraform provisions the Amazon EKS cluster and required configuration",
+        "Kubernetes resources are deployed after the cluster becomes available"
+      ]
+    },
+    "project_scope": [
+      "Cloud infrastructure design and provisioning",
+      "Containerization and local development",
+      "Kubernetes cluster implementation",
+      "Application networking and ingress",
+      "Persistent storage configuration",
+      "DNS and custom domain integration",
+      "GitOps implementation",
+      "Continuous integration",
+      "Continuous delivery",
+      "Deployment validation and troubleshooting"
+    ],
+    "aws_infrastructure": [
+      {
+        "component": "IAM",
+        "purpose": "Configured AWS identities, roles and permissions required for infrastructure provisioning and platform operations."
+      },
+      {
+        "component": "VPC",
+        "purpose": "Provides the network foundation for the Kubernetes environment and supporting AWS resources."
+      },
+      {
+        "component": "Security Groups",
+        "purpose": "Controls inbound and outbound network traffic between infrastructure components."
+      },
+      {
+        "component": "Amazon EKS",
+        "purpose": "Provides the managed Kubernetes control plane for running the e-commerce microservices."
+      },
+      {
+        "component": "Amazon ECR",
+        "purpose": "Stores Docker container images used by the Kubernetes workloads."
+      },
+      {
+        "component": "Amazon EC2",
+        "purpose": "Provides an administration and DevOps environment for working with AWS, Docker, Terraform and Kubernetes tooling."
+      },
+      {
+        "component": "Amazon Route 53",
+        "purpose": "Provides DNS management and maps the custom application domain to the application entry point."
+      }
+    ],
+    "terraform_implementation": {
+      "description": "Terraform is used as the Infrastructure as Code layer to provision and manage AWS infrastructure in a repeatable and version-controlled manner.",
+      "components": [
+        "Terraform provider configuration",
+        "AWS provider configuration",
+        "Terraform initialization",
+        "Terraform plan and apply workflow",
+        "Terraform state management",
+        "Remote backend configuration",
+        "Terraform state locking",
+        "VPC provisioning",
+        "Subnet and networking configuration",
+        "IAM configuration",
+        "Security group configuration",
+        "Amazon EKS provisioning",
+        "Terraform outputs and variables"
+      ],
+      "engineering_benefits": [
+        "Reproducible infrastructure",
+        "Version-controlled infrastructure changes",
+        "Reduced manual AWS configuration",
+        "Improved collaboration around infrastructure changes",
+        "Ability to review infrastructure changes before applying them",
+        "Consistent infrastructure provisioning"
+      ]
+    },
+    "containerization": {
+      "description": "The application microservices are packaged as Docker containers to provide consistent application execution across local development and Kubernetes environments.",
+      "workflow": [
+        "Create Dockerfiles for application microservices",
+        "Build Docker images",
+        "Run containers locally",
+        "Configure service-to-service connectivity",
+        "Validate application behavior locally",
+        "Push application images to a container registry",
+        "Deploy images to Amazon EKS"
+      ],
+      "local_development": "Docker Compose is used to run the application and supporting services locally, providing a repeatable development and validation environment before Kubernetes deployment."
+    },
+    "kubernetes_implementation": {
+      "description": "Amazon EKS is used as the container orchestration platform for running and managing the application microservices.",
+      "resources": [
+        "Namespaces",
+        "Deployments",
+        "Services",
+        "ConfigMaps",
+        "Secrets",
+        "Ingress",
+        "Ingress Controller",
+        "StorageClass",
+        "PersistentVolumes",
+        "PersistentVolumeClaims"
+      ],
+      "deployment_model": "Each application microservice is deployed as a Kubernetes workload with a corresponding service providing internal connectivity. Ingress provides controlled external routing into the application platform.",
+      "validation": [
+        "Verify Kubernetes cluster connectivity",
+        "Verify namespaces and workloads",
+        "Verify pod health and status",
+        "Verify Kubernetes services",
+        "Verify ingress configuration",
+        "Verify application endpoint",
+        "Validate microservice connectivity",
+        "Review Kubernetes events and logs during troubleshooting"
+      ]
+    },
+    "networking": {
+      "description": "The application networking layer connects the public DNS endpoint to the Kubernetes workloads through AWS and Kubernetes networking components.",
+      "traffic_path": [
+        "User",
+        "Custom Domain",
+        "Amazon Route 53",
+        "AWS Load Balancer",
+        "Kubernetes Ingress",
+        "Kubernetes Service",
+        "Application Pod"
+      ],
+      "key_components": [
+        "AWS VPC",
+        "Subnets",
+        "Security Groups",
+        "Load Balancer",
+        "Kubernetes Ingress",
+        "Ingress Controller",
+        "Kubernetes Services",
+        "Route 53"
+      ]
+    },
+    "storage": {
+      "description": "Kubernetes persistent storage resources are configured for workloads that require data persistence beyond the lifecycle of individual pods.",
+      "components": [
+        "StorageClass",
+        "PersistentVolume",
+        "PersistentVolumeClaim"
+      ],
+      "objective": "Provide Kubernetes workloads with persistent storage through declarative storage resources rather than tying application state to individual containers."
+    },
+    "gitops": {
+      "description": "Argo CD is used to implement GitOps-based continuous delivery, with Git serving as the declarative source of truth for Kubernetes application configuration.",
+      "workflow": [
+        "Kubernetes configuration is maintained in Git",
+        "Application image or deployment configuration is updated",
+        "Argo CD detects the desired-state change",
+        "Argo CD compares desired and actual cluster state",
+        "Argo CD synchronizes Kubernetes resources",
+        "Amazon EKS runs the desired application version"
+      ],
+      "benefits": [
+        "Declarative application deployment",
+        "Git-based deployment history",
+        "Improved deployment auditability",
+        "Reduced manual kubectl-based deployments",
+        "Consistent application configuration",
+        "Simplified deployment synchronization",
+        "Improved rollback and recovery workflows"
+      ]
+    },
+    "ci_cd": {
+      "description": "GitHub Actions and Argo CD are combined to create an end-to-end CI/CD workflow from source code changes through container image creation and Kubernetes deployment.",
+      "continuous_integration": [
+        "Developer pushes code to GitHub",
+        "GitHub Actions workflow is triggered",
+        "Source code is checked out",
+        "Application validation and build steps are executed",
+        "Docker image is built",
+        "Image is tagged",
+        "Container image is pushed to Amazon ECR"
+      ],
+      "continuous_delivery": [
+        "Deployment configuration references the new application image",
+        "GitOps repository represents the desired Kubernetes state",
+        "Argo CD detects the change",
+        "Argo CD synchronizes the application",
+        "Amazon EKS deploys the updated workload",
+        "Deployment status is validated"
+      ],
+      "outcome": "The resulting workflow reduces manual deployment activities and establishes a repeatable path from source-code change to Kubernetes deployment."
+    },
+    "challenges": [
+      "Designing a repeatable AWS infrastructure provisioning process",
+      "Managing Terraform state safely in a collaborative environment",
+      "Connecting application containerization with Kubernetes deployment",
+      "Configuring Kubernetes ingress and external traffic routing",
+      "Integrating AWS networking with Kubernetes networking",
+      "Managing persistent storage for Kubernetes workloads",
+      "Connecting custom DNS configuration with the Kubernetes application endpoint",
+      "Separating continuous integration from continuous delivery",
+      "Implementing GitOps without relying on manual Kubernetes deployments",
+      "Maintaining consistency between the desired Git state and the actual Kubernetes state"
+    ],
+    "solutions": [
+      "Used Terraform to define AWS infrastructure as code and reduce manual provisioning.",
+      "Configured remote Terraform state and state locking to improve infrastructure state management.",
+      "Used Docker to standardize application packaging across local and Kubernetes environments.",
+      "Used Amazon EKS as the managed Kubernetes platform for application workloads.",
+      "Implemented Kubernetes Deployments and Services for microservice orchestration and networking.",
+      "Configured Ingress and an Ingress Controller for centralized external HTTP routing.",
+      "Used Kubernetes storage resources for workloads requiring persistent data.",
+      "Integrated Route 53 with the application ingress endpoint for custom domain access.",
+      "Implemented GitHub Actions for automated continuous integration and container image publishing.",
+      "Implemented Argo CD to provide GitOps-based continuous delivery.",
+      "Used Git as the declarative source of truth for Kubernetes deployment configuration."
+    ],
+    "engineering_decisions": [
+      {
+        "area": "Infrastructure as Code",
+        "decision": "Terraform",
+        "reason": "Provides repeatable, version-controlled and reviewable AWS infrastructure provisioning."
+      },
+      {
+        "area": "Containerization",
+        "decision": "Docker",
+        "reason": "Provides consistent application packaging across development and deployment environments."
+      },
+      {
+        "area": "Container Orchestration",
+        "decision": "Amazon EKS",
+        "reason": "Provides managed Kubernetes infrastructure for running the distributed microservices platform."
+      },
+      {
+        "area": "Container Registry",
+        "decision": "Amazon ECR",
+        "reason": "Provides an AWS-native registry for storing application container images."
+      },
+      {
+        "area": "Continuous Integration",
+        "decision": "GitHub Actions",
+        "reason": "Automates application validation, container builds and image publishing."
+      },
+      {
+        "area": "Continuous Delivery",
+        "decision": "Argo CD",
+        "reason": "Provides declarative GitOps-based Kubernetes deployment and synchronization."
+      },
+      {
+        "area": "DNS",
+        "decision": "Amazon Route 53",
+        "reason": "Provides managed DNS integration for the application custom domain."
+      },
+      {
+        "area": "Local Development",
+        "decision": "Docker Compose",
+        "reason": "Provides a consistent environment for running and validating the microservices application locally."
+      }
+    ],
+    "operational_workflow": [
+      "Review application and infrastructure changes",
+      "Validate Terraform changes using terraform plan",
+      "Apply approved infrastructure changes using Terraform",
+      "Build and validate application containers",
+      "Push container images to Amazon ECR",
+      "Update GitOps deployment configuration",
+      "Allow Argo CD to synchronize the desired state",
+      "Validate Kubernetes workloads",
+      "Verify services and ingress configuration",
+      "Validate application availability through the custom domain",
+      "Investigate logs, events and workload status when issues occur"
+    ],
+    "troubleshooting_areas": [
+      "EC2 and AWS connectivity",
+      "IAM permissions",
+      "Security group rules",
+      "Terraform state and backend issues",
+      "EKS cluster connectivity",
+      "Kubernetes pod failures",
+      "Kubernetes deployment issues",
+      "Service discovery and connectivity",
+      "Ingress routing issues",
+      "Load balancer configuration",
+      "PersistentVolume and PersistentVolumeClaim issues",
+      "Route 53 DNS resolution",
+      "Docker image build and registry issues",
+      "GitHub Actions workflow failures",
+      "Argo CD synchronization issues"
+    ],
+    "key_takeaways": [
+      "Infrastructure can be managed as version-controlled code rather than manually through the AWS console.",
+      "Docker provides a consistent packaging model between local development and Kubernetes.",
+      "Amazon EKS provides a managed Kubernetes platform for distributed application workloads.",
+      "Kubernetes provides declarative deployment, service discovery and workload reconciliation.",
+      "Terraform enables repeatable infrastructure provisioning and environment reconstruction.",
+      "GitHub Actions automates continuous integration and container image delivery.",
+      "Argo CD provides a declarative GitOps model for Kubernetes continuous delivery.",
+      "The combination of CI and GitOps creates a repeatable application delivery pipeline.",
+      "Separating infrastructure management from application deployment improves maintainability and operational control.",
+      "The project demonstrates an end-to-end DevOps lifecycle rather than focusing on a single tool or platform."
+    ],
+    "future_enhancements": [
+      "Implement HTTPS and TLS certificate management using AWS Certificate Manager",
+      "Add Prometheus and Grafana for Kubernetes monitoring",
+      "Implement centralized application and infrastructure logging",
+      "Add distributed tracing using OpenTelemetry",
+      "Implement Kubernetes Horizontal Pod Autoscaling",
+      "Introduce advanced cluster autoscaling",
+      "Integrate container vulnerability scanning into the CI pipeline",
+      "Add Terraform security and compliance scanning",
+      "Integrate AWS Secrets Manager or another external secrets solution",
+      "Implement Kubernetes network policies",
+      "Introduce separate development, staging and production environments",
+      "Implement blue-green or canary deployment strategies",
+      "Add automated rollback and deployment health checks",
+      "Improve disaster recovery and backup procedures"
+    ],
+    "portfolio_highlights": [
+      "Designed an end-to-end DevOps workflow for a distributed microservices application.",
+      "Implemented AWS infrastructure using Infrastructure as Code.",
+      "Built a Kubernetes deployment platform on Amazon EKS.",
+      "Implemented GitOps-based application delivery with Argo CD.",
+      "Automated continuous integration with GitHub Actions.",
+      "Integrated container image delivery with Amazon ECR.",
+      "Configured Kubernetes ingress, persistent storage and external DNS.",
+      "Demonstrated production-oriented infrastructure, deployment and troubleshooting practices."
+    ],
+    "challenges_summary": "The primary engineering challenge was creating a repeatable platform that connects infrastructure provisioning, containerization, Kubernetes orchestration and application delivery without relying on manual deployment processes. Particular attention was given to Terraform state management, AWS permissions, Kubernetes networking, ingress, persistent storage, DNS and the separation of CI from CD.",
+    "solution_summary": "The solution combines Terraform for AWS Infrastructure as Code, Docker for application containerization, Amazon EKS for Kubernetes orchestration, Route 53 for DNS, GitHub Actions for continuous integration and Argo CD for GitOps-based continuous delivery. Together these components create an automated path from source-code changes to a validated application deployment on AWS.",
+    "status": "Cloud Native / DevOps Case Study"
+  }
+]

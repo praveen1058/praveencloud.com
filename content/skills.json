@@ -1,0 +1,66 @@
+[
+  {
+    "category": "Cloud",
+    "items": [
+      "AWS",
+      "EC2",
+      "S3",
+      "RDS",
+      "CloudFront",
+      "ALB",
+      "Auto Scaling",
+      "Route 53"
+    ]
+  },
+  {
+    "category": "Infrastructure as Code",
+    "items": [
+      "Terraform"
+    ]
+  },
+  {
+    "category": "Containers & Orchestration",
+    "items": [
+      "Kubernetes",
+      "Docker"
+    ]
+  },
+  {
+    "category": "Linux & Systems",
+    "items": [
+      "Linux",
+      "Nginx",
+      "Apache",
+      "MySQL",
+      "MariaDB"
+    ]
+  },
+  {
+    "category": "CI/CD & Automation",
+    "items": [
+      "Jenkins",
+      "GitHub",
+      "CI/CD"
+    ]
+  },
+  {
+    "category": "Networking & Security",
+    "items": [
+      "VPC",
+      "IAM",
+      "Cloudflare",
+      "DNS",
+      "SSL/TLS"
+    ]
+  },
+  {
+    "category": "Monitoring & Reliability",
+    "items": [
+      "CloudWatch",
+      "Prometheus",
+      "Grafana",
+      "Production Support",
+      "Incident Management"
+    ]
+  }
+]

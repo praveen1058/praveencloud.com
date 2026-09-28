@@ -1,0 +1,763 @@
+[
+  {
+    "slug": "aws-cloud-native-ecommerce-platform",
+    "title": "AWS Cloud-Native E-Commerce Platform",
+    "description": "Production-oriented Cloud and DevOps architecture case study for designing a scalable, secure and observable cloud-native e-commerce platform on AWS. The architecture demonstrates independently deployable services, Infrastructure as Code, containerized workloads, automated CI/CD, private networking, managed AWS services, security controls, observability and reliability engineering practices.",
+    "image": "/images/cloud-native-app-th.png",
+    "technologies": [
+      "AWS",
+      "Terraform",
+      "Docker",
+      "Amazon ECS",
+      "AWS Fargate",
+      "Amazon ECR",
+      "Amazon API Gateway",
+      "Application Load Balancer",
+      "Amazon CloudFront",
+      "Amazon Route 53",
+      "Amazon DynamoDB",
+      "Amazon RDS",
+      "Amazon S3",
+      "Amazon SQS",
+      "Amazon SNS",
+      "Amazon Cognito",
+      "AWS IAM",
+      "Amazon CloudWatch",
+      "GitHub Actions",
+      "CI/CD"
+    ],
+    "github": "https://github.com/praveen1058/aws-cloud-native-ecommerce",
+    "live_demo": "",
+    "screenshots": [],
+    "architecture_image": "/images/cloud-native-app-arch.png",
+
+    "executive_summary": "Designed a production-oriented AWS cloud-native architecture for a scalable e-commerce platform using independently deployable services, containerized workloads, managed AWS services, Infrastructure as Code, automated delivery, secure networking, observability and reliability engineering practices. The project is presented as a technical architecture and portfolio case study and does not claim that the complete platform is currently deployed to a production AWS account.",
+
+    "project_scope": [
+      "Cloud-native e-commerce architecture",
+      "Microservice-oriented application design",
+      "Containerized application workloads",
+      "AWS infrastructure architecture",
+      "Infrastructure as Code using Terraform",
+      "Automated CI/CD",
+      "Secure identity and access management",
+      "Managed database architecture",
+      "Asynchronous application communication",
+      "Content delivery and DNS",
+      "Centralized monitoring and logging",
+      "Reliability and failure-handling design"
+    ],
+
+    "architecture": {
+      "overview": "The platform uses Amazon CloudFront and Route 53 as the public entry layer, API Gateway and Application Load Balancer for API routing, Amazon ECS with AWS Fargate for containerized application workloads, DynamoDB and Amazon RDS for data persistence, and SQS/SNS for asynchronous communication. Supporting AWS services provide container image management, authentication, object storage, observability and access control.",
+      "request_flow": [
+        "User accesses the e-commerce platform through the application domain",
+        "Amazon Route 53 resolves the application domain",
+        "Amazon CloudFront provides the content delivery layer",
+        "Static frontend content is served from Amazon S3",
+        "API requests are routed through Amazon API Gateway",
+        "API Gateway forwards application traffic toward the Application Load Balancer",
+        "Application Load Balancer routes requests to ECS services",
+        "Amazon ECS runs containerized microservices using AWS Fargate",
+        "Microservices communicate with their respective data and messaging services",
+        "Application responses are returned through the API and CDN layers"
+      ],
+      "service_flow": [
+        "Catalog Service manages product/catalog functionality",
+        "Order Service manages order processing",
+        "Payment Service integrates with external payment capabilities",
+        "Catalog Service uses DynamoDB for scalable catalog-oriented persistence",
+        "Order Service uses Amazon RDS for relational transactional data",
+        "Asynchronous workloads use Amazon SQS",
+        "Application notifications can be distributed using Amazon SNS",
+        "Amazon Cognito provides customer authentication",
+        "Amazon ECR stores container images",
+        "Amazon CloudWatch provides logs, metrics and alarms"
+      ]
+    },
+
+    "aws_components": [
+      {
+        "service": "Amazon Route 53",
+        "purpose": "Provides DNS management and resolves the public application domain."
+      },
+      {
+        "service": "Amazon CloudFront",
+        "purpose": "Provides global content delivery and improves frontend content performance."
+      },
+      {
+        "service": "Amazon S3",
+        "purpose": "Provides object and static frontend storage."
+      },
+      {
+        "service": "Amazon API Gateway",
+        "purpose": "Provides the managed API entry layer for application requests."
+      },
+      {
+        "service": "Application Load Balancer",
+        "purpose": "Routes application traffic to the appropriate ECS services."
+      },
+      {
+        "service": "Amazon ECS",
+        "purpose": "Provides container orchestration for application microservices."
+      },
+      {
+        "service": "AWS Fargate",
+        "purpose": "Runs ECS containers without requiring management of underlying EC2 instances."
+      },
+      {
+        "service": "Amazon ECR",
+        "purpose": "Stores and manages application container images."
+      },
+      {
+        "service": "Amazon DynamoDB",
+        "purpose": "Provides scalable NoSQL persistence for catalog-oriented application data."
+      },
+      {
+        "service": "Amazon RDS",
+        "purpose": "Provides managed relational database capabilities for transactional workloads such as orders."
+      },
+      {
+        "service": "Amazon SQS",
+        "purpose": "Provides asynchronous messaging and decouples application components."
+      },
+      {
+        "service": "Amazon SNS",
+        "purpose": "Provides notification and publish/subscribe capabilities."
+      },
+      {
+        "service": "Amazon Cognito",
+        "purpose": "Provides customer authentication and identity management."
+      },
+      {
+        "service": "AWS IAM",
+        "purpose": "Provides identity, authentication and authorization controls for AWS resources and workloads."
+      },
+      {
+        "service": "Amazon CloudWatch",
+        "purpose": "Provides centralized application and infrastructure logs, metrics, alarms and operational visibility."
+      }
+    ],
+
+    "microservices": [
+      {
+        "service": "Catalog Service",
+        "responsibility": "Manages product catalog and product-related application functionality.",
+        "primary_data_store": "Amazon DynamoDB",
+        "communication": "Synchronous API communication with asynchronous messaging where required."
+      },
+      {
+        "service": "Order Service",
+        "responsibility": "Manages order creation and transactional order processing.",
+        "primary_data_store": "Amazon RDS",
+        "communication": "Synchronous API requests and asynchronous messaging."
+      },
+      {
+        "service": "Payment Service",
+        "responsibility": "Handles payment-related workflows and integration with an external payment provider.",
+        "primary_data_store": "External service or dedicated persistence where required",
+        "communication": "Secure API integration with external payment systems."
+      }
+    ],
+
+    "frontend_architecture": {
+      "description": "The frontend is designed as a static web application distributed through Amazon CloudFront with Amazon S3 providing object and static content storage.",
+      "flow": [
+        "User",
+        "Route 53",
+        "CloudFront",
+        "Amazon S3",
+        "Static frontend application"
+      ],
+      "benefits": [
+        "Global content delivery",
+        "Reduced latency for static assets",
+        "Separation of frontend and backend workloads",
+        "Independent frontend deployment",
+        "Reduced load on application services"
+      ]
+    },
+
+    "api_architecture": {
+      "description": "Application APIs are exposed through a managed API entry layer and routed to containerized backend services.",
+      "flow": [
+        "Client application",
+        "Amazon API Gateway",
+        "Application Load Balancer",
+        "Amazon ECS",
+        "Microservice"
+      ],
+      "benefits": [
+        "Centralized API entry point",
+        "Service routing",
+        "Traffic management",
+        "Independent service deployment",
+        "Improved separation between public API access and internal workloads"
+      ]
+    },
+
+    "containerization": {
+      "description": "Application services are packaged as Docker containers and deployed to Amazon ECS using AWS Fargate.",
+      "workflow": [
+        "Developer commits application code",
+        "CI pipeline validates the application",
+        "Docker image is built",
+        "Image is tagged",
+        "Image is pushed to Amazon ECR",
+        "ECS task definition references the image",
+        "ECS service deploys the new container version using Fargate",
+        "Application health is validated"
+      ],
+      "benefits": [
+        "Consistent application packaging",
+        "Independent service deployment",
+        "Portable workloads",
+        "Simplified operational model",
+        "Reduced infrastructure management through Fargate"
+      ]
+    },
+
+    "infrastructure_as_code": {
+      "description": "Terraform is used as the Infrastructure as Code layer for defining and managing the AWS platform.",
+      "managed_areas": [
+        "VPC and networking",
+        "Subnets",
+        "Security groups",
+        "IAM roles and policies",
+        "ECS cluster",
+        "ECS services",
+        "Fargate task definitions",
+        "Application Load Balancer",
+        "API Gateway",
+        "ECR repositories",
+        "RDS",
+        "DynamoDB",
+        "S3",
+        "CloudFront",
+        "Route 53",
+        "SQS",
+        "SNS",
+        "CloudWatch",
+        "Cognito"
+      ],
+      "engineering_benefits": [
+        "Reproducible AWS environments",
+        "Version-controlled infrastructure",
+        "Reviewable infrastructure changes",
+        "Reduced manual configuration",
+        "Consistent environment provisioning",
+        "Improved disaster recovery and environment reconstruction"
+      ]
+    },
+
+    "networking": {
+      "description": "The architecture separates public-facing components from private application and data workloads using AWS networking controls.",
+      "design_principles": [
+        "Public access is restricted to required entry points",
+        "Application workloads are isolated within controlled network boundaries",
+        "Databases should not be directly exposed to the public internet",
+        "Security groups control workload communication",
+        "Least-privilege network access is applied between components",
+        "Outbound connectivity is controlled according to workload requirements"
+      ],
+      "traffic_path": [
+        "Internet",
+        "Route 53",
+        "CloudFront",
+        "API Gateway",
+        "Application Load Balancer",
+        "ECS/Fargate",
+        "Application services",
+        "Private data services"
+      ],
+      "network_components": [
+        "VPC",
+        "Public subnets",
+        "Private subnets",
+        "Security groups",
+        "Application Load Balancer",
+        "NAT Gateway where required",
+        "VPC endpoints where applicable"
+      ]
+    },
+
+    "security": {
+      "description": "Security is designed using AWS identity, network and workload isolation principles.",
+      "controls": [
+        "IAM least privilege",
+        "Dedicated IAM roles for workloads",
+        "Security groups with restricted inbound access",
+        "Private application workloads where appropriate",
+        "Private database connectivity",
+        "Customer authentication using Amazon Cognito",
+        "Secrets management for sensitive application configuration",
+        "Encryption in transit",
+        "Encryption at rest",
+        "Container image security scanning",
+        "Centralized logging and auditing",
+        "Infrastructure changes managed through code review"
+      ],
+      "security_principles": [
+        "Least privilege",
+        "Defense in depth",
+        "No unnecessary public exposure",
+        "Identity-based access",
+        "Separation of application and data layers",
+        "Secure secret handling",
+        "Auditable infrastructure changes"
+      ]
+    },
+
+    "identity_and_access": {
+      "description": "IAM provides AWS-level identity and access control while Amazon Cognito provides customer-facing application authentication.",
+      "components": [
+        "AWS IAM users and roles where required",
+        "ECS task roles",
+        "ECS execution roles",
+        "Terraform deployment role",
+        "GitHub Actions OIDC role",
+        "Amazon Cognito user pools"
+      ],
+      "principles": [
+        "Avoid long-lived credentials where possible",
+        "Use workload-specific roles",
+        "Apply least-privilege policies",
+        "Separate deployment permissions from runtime permissions",
+        "Use short-lived authentication for CI/CD where possible"
+      ]
+    },
+
+    "data_architecture": {
+      "description": "The platform uses different persistence technologies based on application workload characteristics rather than forcing every service onto a single database technology.",
+      "components": [
+        {
+          "service": "Amazon DynamoDB",
+          "use_case": "Product catalog and high-scale key-value/document access patterns."
+        },
+        {
+          "service": "Amazon RDS",
+          "use_case": "Transactional relational data such as orders and strongly consistent relational workflows."
+        },
+        {
+          "service": "Amazon S3",
+          "use_case": "Static content, objects and application assets."
+        }
+      ],
+      "principles": [
+        "Select storage based on workload requirements",
+        "Keep service data ownership clearly defined",
+        "Avoid unnecessary coupling between services",
+        "Use managed AWS database services where appropriate",
+        "Design backup and recovery strategies for persistent workloads"
+      ]
+    },
+
+    "messaging": {
+      "description": "Amazon SQS and SNS provide asynchronous communication patterns to reduce coupling between services and support event-driven workflows.",
+      "components": [
+        {
+          "service": "Amazon SQS",
+          "purpose": "Queues asynchronous work and decouples producers from consumers."
+        },
+        {
+          "service": "Amazon SNS",
+          "purpose": "Distributes notifications or events to multiple subscribers."
+        }
+      ],
+      "use_cases": [
+        "Order processing events",
+        "Background processing",
+        "Notification workflows",
+        "Service decoupling",
+        "Retryable asynchronous workloads"
+      ],
+      "reliability_considerations": [
+        "Message retries",
+        "Dead-letter queues",
+        "Idempotent consumers",
+        "Visibility timeout configuration",
+        "Failure monitoring"
+      ]
+    },
+
+    "observability": {
+      "description": "Amazon CloudWatch provides centralized visibility into application and infrastructure health.",
+      "monitoring_areas": [
+        "ECS service health",
+        "Container CPU utilization",
+        "Container memory utilization",
+        "Application logs",
+        "API latency",
+        "Application Load Balancer metrics",
+        "RDS metrics",
+        "DynamoDB metrics",
+        "SQS queue depth",
+        "Error rates",
+        "Availability indicators"
+      ],
+      "alerts": [
+        "High application error rate",
+        "High API latency",
+        "Container CPU threshold breach",
+        "Container memory threshold breach",
+        "ECS task failures",
+        "RDS resource pressure",
+        "SQS queue backlog",
+        "Load balancer errors",
+        "Application health check failures"
+      ],
+      "operational_principles": [
+        "Centralized logging",
+        "Actionable alerts",
+        "Service health monitoring",
+        "Capacity monitoring",
+        "Application-level observability"
+      ]
+    },
+
+    "reliability": {
+      "description": "The platform incorporates reliability engineering principles through managed services, workload isolation, health checks, asynchronous processing and automated deployment practices.",
+      "principles": [
+        "Avoid single points of failure",
+        "Use managed AWS services where appropriate",
+        "Run multiple application tasks for critical services",
+        "Use health checks for service availability",
+        "Decouple asynchronous workloads",
+        "Use retries for transient failures",
+        "Use dead-letter queues for failed asynchronous messages",
+        "Implement database backup and recovery",
+        "Monitor application and infrastructure health",
+        "Automate deployment and rollback procedures"
+      ],
+      "failure_scenarios": [
+        "Container task failure",
+        "Application instance failure",
+        "Database connectivity issue",
+        "External payment API failure",
+        "Message processing failure",
+        "API latency increase",
+        "Load balancer target failure",
+        "Deployment failure"
+      ]
+    },
+
+    "ci_cd": {
+      "description": "The application delivery model uses Git-based development, automated CI, container image publishing and automated deployment to ECS.",
+      "workflow": [
+        "Developer creates feature branch",
+        "Code is committed to Git",
+        "Pull request is created",
+        "GitHub Actions starts CI pipeline",
+        "Application tests and validation are executed",
+        "Docker image is built",
+        "Container image security checks are performed",
+        "Image is pushed to Amazon ECR",
+        "Deployment configuration is updated",
+        "ECS service deploys the new application version",
+        "Health checks and deployment validation are performed"
+      ],
+      "pipeline_stages": [
+        "Checkout",
+        "Dependency installation",
+        "Build",
+        "Unit tests",
+        "Static analysis",
+        "Security scanning",
+        "Docker build",
+        "Container scanning",
+        "Amazon ECR push",
+        "Deployment",
+        "Health validation"
+      ]
+    },
+
+    "deployment_strategy": {
+      "description": "Containerized services are independently deployable on Amazon ECS, allowing individual microservices to be updated without requiring a full application deployment.",
+      "principles": [
+        "Independent service deployment",
+        "Immutable container images",
+        "Versioned container tags",
+        "Automated health checks",
+        "Deployment validation",
+        "Rollback to a known-good image",
+        "Minimal deployment downtime"
+      ]
+    },
+
+    "scalability": {
+      "description": "The architecture is designed to scale application services independently according to workload demand.",
+      "strategies": [
+        "ECS service scaling",
+        "AWS Fargate task scaling",
+        "Application Load Balancer distribution",
+        "CloudFront content caching",
+        "DynamoDB horizontal scalability",
+        "RDS scaling based on workload requirements",
+        "SQS-based workload buffering",
+        "Independent microservice scaling"
+      ],
+      "principles": [
+        "Scale stateless services horizontally",
+        "Decouple asynchronous workloads",
+        "Use managed services for elastic capacity",
+        "Avoid unnecessary coupling between application components"
+      ]
+    },
+
+    "performance": {
+      "description": "Performance is addressed through content caching, independent service scaling, asynchronous processing and workload-specific data stores.",
+      "optimizations": [
+        "CloudFront caching for static content",
+        "Independent ECS service scaling",
+        "DynamoDB for scalable catalog access",
+        "SQS for asynchronous background processing",
+        "Database query optimization",
+        "Connection management",
+        "Application Load Balancer traffic distribution"
+      ]
+    },
+
+    "disaster_recovery": {
+      "description": "The platform is designed with managed-service backup and recovery capabilities as part of the reliability strategy.",
+      "considerations": [
+        "RDS automated backups",
+        "Database recovery procedures",
+        "DynamoDB backup and recovery",
+        "S3 versioning where required",
+        "Infrastructure recreation using Terraform",
+        "Container images retained in Amazon ECR",
+        "Infrastructure configuration stored in Git",
+        "Documented recovery procedures"
+      ]
+    },
+
+    "operational_workflow": [
+      "Developer submits application change",
+      "CI pipeline validates the change",
+      "Container image is built and scanned",
+      "Image is pushed to Amazon ECR",
+      "Deployment is initiated",
+      "ECS updates application tasks",
+      "Health checks validate the deployment",
+      "CloudWatch monitors application health",
+      "Alerts are generated for operational issues",
+      "Failed deployments can be rolled back to a previous image"
+    ],
+
+    "engineering_decisions": [
+      {
+        "area": "Container Orchestration",
+        "decision": "Amazon ECS with AWS Fargate",
+        "reason": "Provides managed container orchestration while reducing operational overhead associated with managing container hosts."
+      },
+      {
+        "area": "Container Registry",
+        "decision": "Amazon ECR",
+        "reason": "Provides an AWS-native container registry integrated with ECS and IAM."
+      },
+      {
+        "area": "Frontend Delivery",
+        "decision": "Amazon S3 with CloudFront",
+        "reason": "Separates static content delivery from backend workloads and provides scalable global content distribution."
+      },
+      {
+        "area": "API Layer",
+        "decision": "API Gateway and Application Load Balancer",
+        "reason": "Provides a managed API entry point and controlled routing to containerized backend services."
+      },
+      {
+        "area": "Catalog Database",
+        "decision": "DynamoDB",
+        "reason": "Provides scalable NoSQL access patterns suitable for catalog-oriented workloads."
+      },
+      {
+        "area": "Transactional Database",
+        "decision": "Amazon RDS",
+        "reason": "Provides managed relational database capabilities for transactional application data."
+      },
+      {
+        "area": "Asynchronous Communication",
+        "decision": "SQS and SNS",
+        "reason": "Decouples services, supports asynchronous processing and improves resilience for background workflows."
+      },
+      {
+        "area": "Authentication",
+        "decision": "Amazon Cognito",
+        "reason": "Provides managed customer authentication and reduces the need to build identity infrastructure from scratch."
+      },
+      {
+        "area": "Infrastructure as Code",
+        "decision": "Terraform",
+        "reason": "Provides reproducible, version-controlled and reviewable AWS infrastructure."
+      },
+      {
+        "area": "Observability",
+        "decision": "Amazon CloudWatch",
+        "reason": "Provides centralized logs, metrics and alarms across the application and AWS infrastructure."
+      }
+    ],
+
+    "security_architecture": {
+      "layers": [
+        {
+          "layer": "Edge",
+          "controls": [
+            "Route 53",
+            "CloudFront",
+            "TLS/HTTPS"
+          ]
+        },
+        {
+          "layer": "API",
+          "controls": [
+            "API Gateway",
+            "Authentication",
+            "Request validation",
+            "Rate limiting where applicable"
+          ]
+        },
+        {
+          "layer": "Application",
+          "controls": [
+            "ECS task roles",
+            "Security groups",
+            "Private networking",
+            "Least-privilege access"
+          ]
+        },
+        {
+          "layer": "Data",
+          "controls": [
+            "Private database access",
+            "Encryption at rest",
+            "Encryption in transit",
+            "Backup and recovery"
+          ]
+        },
+        {
+          "layer": "Operations",
+          "controls": [
+            "IAM",
+            "CloudWatch",
+            "Audit logging",
+            "Infrastructure as Code",
+            "CI/CD security scanning"
+          ]
+        }
+      ]
+    },
+
+    "challenges": [
+      "Designing a scalable architecture without creating unnecessary operational complexity",
+      "Separating microservices while maintaining reliable service-to-service communication",
+      "Protecting application and database workloads from unnecessary public exposure",
+      "Selecting the appropriate AWS managed service for each workload",
+      "Supporting independent microservice deployments",
+      "Designing asynchronous workflows for reliability",
+      "Maintaining visibility across distributed services",
+      "Balancing scalability, reliability, security and cost",
+      "Designing automated delivery while maintaining deployment safety",
+      "Providing a practical disaster recovery and rollback strategy"
+    ],
+
+    "solutions": [
+      "Used ECS and Fargate to provide managed container orchestration.",
+      "Used CloudFront and S3 to separate static frontend delivery from backend application workloads.",
+      "Used API Gateway and Application Load Balancer to provide controlled API and service routing.",
+      "Used DynamoDB and RDS according to different application data requirements.",
+      "Used SQS and SNS to decouple asynchronous workflows.",
+      "Applied private networking and security groups to reduce unnecessary public exposure.",
+      "Used IAM roles and least-privilege policies for workload and deployment access.",
+      "Used Terraform to manage infrastructure as code.",
+      "Used GitHub Actions to automate application validation, image builds and deployment.",
+      "Used CloudWatch for centralized monitoring, logs, metrics and alarms.",
+      "Designed health checks, retries, backups and rollback procedures as part of the reliability model."
+    ],
+
+    "repository_structure": {
+      "root": "aws-cloud-native-ecommerce-platform/",
+      "directories": [
+        "docs/",
+        "terraform/",
+        "services/",
+        "docker/",
+        ".github/workflows/",
+        "scripts/",
+        "architecture/"
+      ],
+      "recommended_files": [
+        "README.md",
+        "docs/architecture.md",
+        "docs/security.md",
+        "docs/networking.md",
+        "docs/cicd.md",
+        "docs/observability.md",
+        "docs/reliability.md",
+        "docs/disaster-recovery.md",
+        "terraform/",
+        "services/catalog/",
+        "services/order/",
+        "services/payment/",
+        ".github/workflows/",
+        "architecture/architecture.png"
+      ]
+    },
+
+    "future_enhancements": [
+      "AWS WAF integration",
+      "AWS Shield considerations",
+      "AWS Secrets Manager integration",
+      "AWS KMS key management",
+      "OpenTelemetry distributed tracing",
+      "Amazon Managed Service for Prometheus",
+      "Amazon Managed Grafana",
+      "Centralized security findings",
+      "Amazon GuardDuty integration",
+      "AWS Config compliance rules",
+      "Advanced ECS autoscaling",
+      "Blue-green deployments",
+      "Canary deployments",
+      "Multi-region architecture",
+      "Cross-region disaster recovery",
+      "Advanced cost optimization",
+      "Service mesh evaluation where justified"
+    ],
+
+    "lessons_learned": [
+      "Cloud-native architecture is primarily about selecting appropriate managed services and defining clear service boundaries.",
+      "Independent deployment requires strong API and data ownership boundaries.",
+      "Container orchestration should reduce operational complexity rather than introduce unnecessary infrastructure management.",
+      "Security should be designed into networking, IAM, containers and application delivery rather than added later.",
+      "Asynchronous messaging can improve resilience and reduce coupling between services.",
+      "Observability is essential for operating distributed applications.",
+      "Infrastructure as Code provides a foundation for repeatability and disaster recovery.",
+      "Automated CI/CD improves delivery speed but must be combined with health checks and rollback mechanisms.",
+      "Scalability, security, reliability and cost should be considered together during architecture design.",
+      "Managed AWS services can significantly reduce operational overhead when selected according to workload requirements."
+    ],
+
+    "portfolio_highlights": [
+      "Designed a cloud-native AWS architecture for an e-commerce platform.",
+      "Applied microservice-oriented application design with independently deployable services.",
+      "Designed containerized workloads using Amazon ECS and AWS Fargate.",
+      "Integrated Amazon ECR for container image management.",
+      "Designed S3 and CloudFront architecture for scalable frontend delivery.",
+      "Designed API Gateway and Application Load Balancer routing.",
+      "Applied DynamoDB and RDS for workload-specific data persistence.",
+      "Designed asynchronous communication using SQS and SNS.",
+      "Implemented IAM and private networking security principles.",
+      "Designed Terraform-based Infrastructure as Code.",
+      "Designed GitHub Actions CI/CD workflows.",
+      "Designed CloudWatch-based observability and reliability practices.",
+      "Documented disaster recovery, rollback and operational considerations."
+    ],
+
+    "challenges_summary": "The primary architectural challenge was designing a scalable e-commerce platform that could independently deploy services while maintaining strong security, reliable communication, operational visibility and controlled infrastructure management. The design also needed to balance AWS managed services, application scalability, database requirements, asynchronous processing, cost and operational complexity.",
+
+    "solution_summary": "The solution uses Route 53 and CloudFront at the edge, API Gateway and an Application Load Balancer for application traffic, ECS/Fargate for containerized microservices, DynamoDB and RDS for workload-specific persistence, SQS/SNS for asynchronous communication, Cognito for customer authentication, ECR for container images and CloudWatch for observability. Terraform provides Infrastructure as Code while GitHub Actions provides the foundation for automated CI/CD.",
+
+    "project_disclaimer": "This project is a technical architecture and portfolio case study. It demonstrates the engineering approach, design decisions and implementation patterns for a cloud-native AWS e-commerce platform. It does not claim that the complete architecture is currently deployed to a production AWS account.",
+
+    "status": "Cloud Native / AWS Architecture / DevOps"
+  }
+]
