@@ -1,7 +1,7 @@
-// Category display metadata. The single source of truth is public/categories.json so
-// that the PHP endpoints can read the same file at runtime; it is imported (not
-// fetched) so it ends up in the bundle.
-import categoriesFile from "../../public/categories.json";
+// Category display metadata. The single source of truth is content/categories.json:
+// it is imported here so it ends up in the bundle, and the existing content-assets
+// plugin copies it into the build where the PHP endpoints read the same file.
+import categoriesFile from "../../content/categories.json";
 
 export const CATEGORY_META = categoriesFile.categories || {};
 

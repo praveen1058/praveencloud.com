@@ -30,27 +30,30 @@ if ($shell === false) {
 $path = '/' . trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/', '/');
 $segments = array_values(array_filter(explode('/', $path), static fn($s) => $s !== ''));
 
-/** Category labels come from categories.json so PHP and JS agree on wording. */
-function category_label(string $slug): string
+/**
+ * Category display metadata, read from the same content/categories.json the front end
+ * imports, so PHP and JS never disagree on wording. A folder with no entry there still
+ * works — the label just falls back to the slug.
+ */
+function category_meta(string $slug): array
 {
     static $map = null;
     if ($map === null) {
-        $raw = @file_get_contents(blog_root() . '/categories.json');
+        $raw = @file_get_contents(blog_root() . '/content/categories.json');
         $decoded = $raw === false ? null : json_decode($raw, true);
         $map = $decoded['categories'] ?? [];
     }
-    return $map[$slug]['label'] ?? blog_title_case($slug);
+    return $map[$slug] ?? [];
+}
+
+function category_label(string $slug): string
+{
+    return category_meta($slug)['label'] ?? blog_title_case($slug);
 }
 
 function category_description(string $slug): string
 {
-    static $map = null;
-    if ($map === null) {
-        $raw = @file_get_contents(blog_root() . '/categories.json');
-        $decoded = $raw === false ? null : json_decode($raw, true);
-        $map = $decoded['categories'] ?? [];
-    }
-    return $map[$slug]['description']
+    return category_meta($slug)['description']
         ?? 'Articles, guides and practical notes on ' . category_label($slug) . '.';
 }
 

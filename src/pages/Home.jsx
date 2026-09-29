@@ -7,14 +7,13 @@ import {
   Cloud,
   ShieldCheck,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import SEO from "../components/SEO";
 import SectionHeading from "../components/SectionHeading";
 import ContactChannels from "../components/ContactChannels";
 import { loadJSON } from "../utils/api";
-import { scrollToSectionWhenReady } from "../utils/scroll";
 
 const fade = {
   initial: { opacity: 0, y: 20 },
@@ -27,19 +26,11 @@ const fade = {
 export default function Home() {
   const [exp, setExp] = useState([]);
   const [skills, setSkills] = useState([]);
-  const { hash, key } = useLocation();
 
   useEffect(() => {
     loadJSON("/content/experience.json", []).then(setExp);
     loadJSON("/content/skills.json", []).then(setSkills);
   }, []);
-
-  // Handles arriving from another route (or a direct /#contact URL) — the target
-  // section only exists once this page has mounted.
-  useEffect(() => {
-    if (!hash) return;
-    return scrollToSectionWhenReady(hash.slice(1));
-  }, [hash, key]);
 
   return (
     <>

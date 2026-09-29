@@ -70,7 +70,12 @@ function contentAssetsPlugin() {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         if (!req.url || !req.url.startsWith(prefix)) return next();
-        const rel = decodeURIComponent(req.url.split("?")[0]).slice(prefix.length);
+        // A query string means Vite's own module pipeline is asking (?import, ?raw,
+        // ?url, ?t=). Those must be transformed into a JS module, so serving the raw
+        // file here would hand the browser JSON where it expects a module and take the
+        // whole app down. Only plain runtime fetches are answered directly.
+        if (req.url.includes("?")) return next();
+        const rel = decodeURIComponent(req.url).slice(prefix.length);
         const file = path.resolve(dir, rel);
         if (!file.startsWith(dir + path.sep)) return next();
         if (!fs.existsSync(file) || !fs.statSync(file).isFile()) return next();

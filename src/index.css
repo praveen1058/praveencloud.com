@@ -4,6 +4,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Matches the sticky header (h-16), so a jump to #about leaves the heading below
+     the navbar instead of underneath it. */
+  scroll-padding-top: 4rem;
 }
 
 body {

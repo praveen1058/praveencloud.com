@@ -14,15 +14,17 @@ DirectoryIndex index.php index.html
   RewriteEngine On
   RewriteBase /
 
-  # Canonical host + HTTPS. Hostinger terminates TLS upstream, so trust the header it
-  # forwards as well as Apache's own HTTPS flag. Local hosts are exempt so the same
-  # rules can be exercised in the preview container over plain HTTP.
-  RewriteCond %{HTTP_HOST} !^localhost [NC]
-  RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
+  # Force HTTPS, but only for the canonical domain. Scoping it this way means any other
+  # host — Hostinger's temporary preview domain before DNS moves, a staging subdomain,
+  # the local preview container — serves the site instead of being thrown at
+  # production. Hostinger terminates TLS upstream, so the forwarded header is trusted
+  # alongside Apache's own HTTPS flag.
+  RewriteCond %{HTTP_HOST} ^(www\.)?praveencloud\.com$ [NC]
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://praveencloud.com/$1 [R=301,L]
 
+  # www -> apex, so only one host is ever indexed.
   RewriteCond %{HTTP_HOST} ^www\.praveencloud\.com$ [NC]
   RewriteRule ^(.*)$ https://praveencloud.com/$1 [R=301,L]
 

@@ -1,0 +1,65 @@
+{
+  "_comment": "Display metadata for blog categories. The folder name under blog/ IS the category slug — a folder that is missing here still works, its label is just derived from the slug. Add an entry only to control the label, grouping or description.",
+  "categories": {
+    "aws": {
+      "label": "AWS",
+      "group": "Cloud",
+      "description": "Amazon Web Services guides — EC2, S3, IAM, VPC, Lambda, RDS, EKS and CloudFormation."
+    },
+    "azure": {
+      "label": "Microsoft Azure",
+      "group": "Cloud",
+      "description": "Microsoft Azure guides — virtual machines, VNet, storage, IAM, AKS and Azure DevOps."
+    },
+    "gcp": {
+      "label": "Google Cloud Platform",
+      "group": "Cloud",
+      "description": "Google Cloud guides — Compute Engine, Cloud Storage, VPC, IAM, GKE and Cloud Run."
+    },
+    "docker": {
+      "label": "Docker",
+      "group": "DevOps",
+      "description": "Docker guides — images, Dockerfiles, Compose, networking, volumes and containers."
+    },
+    "kubernetes": {
+      "label": "Kubernetes",
+      "group": "DevOps",
+      "description": "Kubernetes guides — pods, deployments, services, config, ingress, Helm and troubleshooting."
+    },
+    "ansible": {
+      "label": "Ansible",
+      "group": "DevOps",
+      "description": "Ansible guides — inventory, playbooks, roles, variables, Vault and automation."
+    },
+    "jenkins": {
+      "label": "Jenkins",
+      "group": "DevOps",
+      "description": "Jenkins guides — installation, pipelines, Jenkinsfile, credentials and CI/CD."
+    },
+    "github-actions": {
+      "label": "GitHub Actions",
+      "group": "DevOps",
+      "description": "GitHub Actions guides — workflows, actions, runners, secrets and CI/CD pipelines."
+    },
+    "terraform": {
+      "label": "Terraform",
+      "group": "Infrastructure as Code",
+      "description": "Terraform guides — providers, resources, variables, modules, state and cloud provisioning."
+    },
+    "shell-script": {
+      "label": "Shell Script",
+      "group": "Automation",
+      "description": "Bash and shell scripting — automation, deployment scripts and system administration."
+    },
+    "linux": {
+      "label": "Linux",
+      "group": "Automation",
+      "description": "Linux for DevOps — the file system, permissions, users, processes, services and networking."
+    },
+    "github": {
+      "label": "GitHub",
+      "group": "Source Control",
+      "description": "Git and GitHub guides — repositories, branches, pull requests, workflows and security."
+    }
+  }
+}
